@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@color/p_200">
+
+
+    <LinearLayout
+        android:id="@+id/logo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Categories"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:textColor="@color/g_800"
+            android:fontFamily="@font/sofia_regular"
+            android:gravity="center_horizontal"/>
+
+        <FrameLayout
+            android:id="@+id/categories_LAY_list"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_weight="2dp"
+            android:background="@color/white"/>
+
+            <Button
+            android:id="@+id/signup_BTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:text="Sign Up"
+            android:ems="13"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

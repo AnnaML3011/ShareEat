@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@drawable/food5">
+
+
+        <LinearLayout
+            android:id="@+id/logo_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="100dp">
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/back_gradient"
+                    android:alpha="0.1"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ShareEat"
+                    android:textSize="70dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/g_800"
+                    android:fontFamily="@font/sofia_regular"
+                    android:gravity="center_horizontal"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="85dp"
+                    android:outlineSpotShadowColor="@color/black"
+                    android:src="@drawable/chef2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginTop="320dp">
+
+
+                <EditText
+                    android:id="@+id/login_email_LBL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="12"
+                    android:hint="Enter Your Email..."
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:inputType="textEmailAddress"
+                    android:background="@drawable/inputs"
+                    android:padding="10dp"
+                    android:layout_marginVertical="6dp" />
+
+                <EditText
+                    android:id="@+id/login_password_LBL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginVertical="10dp"
+                    android:background="@drawable/inputs"
+                    android:ems="12"
+                    android:gravity="center_horizontal"
+                    android:hint="Enter Your Password..."
+                    android:inputType="textPassword"
+                    android:padding="10dp" />
+
+                <Button
+                    android:id="@+id/login_BTN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:text="Login"
+                    android:ems="8"
+                    android:layout_marginTop="30dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Or"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_horizontal"/>
+
+                <Button
+                    android:id="@+id/google_BTN_signup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:text="Sign Up with Google"
+                    android:ems="13"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="_____________________"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal"/>
+
+                <Button
+                    android:id="@+id/signup_BTN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:text="Sign Up"
+                    android:ems="13"
+                    android:layout_marginTop="12dp"
+                    android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
+</RelativeLayout>
