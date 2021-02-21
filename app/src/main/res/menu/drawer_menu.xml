@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/Categories"
+            android:icon="@drawable/category"
+            android:title="Categories" />
+        <item
+            android:id="@+id/My_Recipes"
+            android:icon="@drawable/recipes"
+            android:title="My Recipes" />
+        <item
+            android:id="@+id/My_Wish_List"
+            android:icon="@drawable/favorite"
+            android:title="My Wish List" />
+        <item
+            android:id="@+id/Top_Ten_Recipes"
+            android:icon="@drawable/star"
+            android:title="Top Ten Recipes" />
+    </group>
+</menu>

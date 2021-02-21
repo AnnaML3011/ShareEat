@@ -21,6 +21,7 @@
     //colors package 1
     <color name="g_200">#999b84</color>
     <color name="p_400">#d8ac9c</color>
+    <color name="p_500">#FFC9C8</color>
     <color name="p_200">#efd9d1</color>
     <color name="p_100">#f4eeed</color>
 

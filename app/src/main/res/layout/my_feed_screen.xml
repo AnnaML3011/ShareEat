@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity_MyFeed"
+    android:orientation="vertical"
+    android:background="@color/p_200">
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_host_fragment"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:navGraph="@navigation/mobile_navigation" />-->
+
+    <LinearLayout
+        android:id="@+id/logo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Welcome"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                android:paddingLeft="10dp"
+                android:textColor="@color/g_800"
+                android:fontFamily="@font/sofia_regular"
+                />
+
+            <ImageView
+                android:id="@+id/user_img_IMG"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:layout_alignRight="@+id/user_name_LBL"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/ic_user" />
+
+            <ImageView
+                android:id="@+id/drawer_menu_IMG"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="centerCrop"
+                android:layout_alignRight="@+id/user_name_LBL"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_menu" />
+
+
+            <TextView
+                android:id="@+id/user_name_LBL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Anna Meleshko!"
+                android:paddingLeft="15dp"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:paddingTop="50dp"
+                android:textColor="@color/g_800"
+                android:fontFamily="@font/sofia_regular" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="WishList"
+            android:paddingLeft="15dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:paddingTop="5dp"
+            android:textColor="@color/gray"
+            android:fontFamily="@font/sofia_regular"
+            android:background="@color/white"/>
+
+        <FrameLayout
+            android:id="@+id/wishlist_LAY_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Top Ten Recipes"
+            android:paddingLeft="15dp"
+            android:textSize="20dp"
+            android:paddingTop="5dp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:fontFamily="@font/sofia_regular"
+            android:background="@color/white"/>
+
+        <FrameLayout
+            android:id="@+id/topTenRecipes_LAY_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+
+            android:background="@color/white"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/logout_button"
+                android:layout_width="30dp"
+                android:layout_height="27dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/ic_log_out" />
+
+            <Button
+                android:id="@+id/upload_recipe_BTN"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:background="@drawable/button"
+                android:text="+"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="115dp"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

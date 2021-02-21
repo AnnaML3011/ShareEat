@@ -8,14 +8,24 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ShareEat">
-        <activity android:name=".MainActivity">
+        android:theme="@style/Theme.ShareEat"
+        android:usesCleartextTraffic="true">
+<!--        <activity-->
+<!--            android:name=".DrawerActivity"-->
+<!--            android:label="@string/title_activity_drawer"-->
+<!--            android:theme="@style/Theme.ShareEat.NoActionBar"></activity>-->
+        <activity android:name=".Activity_Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity_MyFeed" />
+        <activity android:name=".Activity_SignUp" />
+        <activity android:name=".Activity_UploadReciepe" />
+        <activity android:name=".Activity_MyRecipes" />
+
     </application>
 
 </manifest>

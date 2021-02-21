@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".Activity_Main"
     android:orientation="vertical"
     android:background="@drawable/food5">
 
@@ -114,11 +114,11 @@
                     android:gravity="center_horizontal"/>
 
                 <Button
-                    android:id="@+id/signup_BTN"
+                    android:id="@+id/signup_manualy_BTN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button"
-                    android:text="Sign Up"
+                    android:text="Sign Up Manualy"
                     android:ems="13"
                     android:layout_marginTop="12dp"
                     android:layout_gravity="center_horizontal" />
