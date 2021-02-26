@@ -1,14 +1,19 @@
-package com.example.shareeat;
+package com.example.shareeat.utils;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.shareeat.R;
+import com.google.android.material.navigation.NavigationView;
 
 public class AppManager {
     //Login Screen
@@ -30,16 +35,28 @@ public class AppManager {
     Button upload_recipe_BTN;
     ImageButton logout_button;
     ImageView user_img_IMG;
-    ImageView drawer_menu_IMG;
+//    ImageView user_img_IMG_drawer;
+//    TextView user_name_LBL;
+//    TextView user_mail_LBL;
 
     //UploadReciepe Screen
     ImageButton backto_myFeed_BTN;
     Button doneUpload_BTN;
     ImageView recipe_upload_IMG;
     EditText recipe_Name_LBL;
-    EditText recipe_category_LBL;
-    EditText recipe_description_LBL;
+    Spinner recipe_category_LBL;
+    EditText recipe_ingredients_UPLD_LBL;
+    EditText recipe_directions_UPLD_LBL;
     EditText preparation_Time_LBL;
+
+    //Fragment_Recipe
+    TextView recipe_title_LBL;
+    TextView recipe_ingredients_LBL;
+    TextView recipe_directions_LBL;
+    TextView recipe_prep_time;
+    TextView recipe_category;
+    ImageView recipe_scpecific_IMG;
+    Button done_With_Recipe_BTN;
 
     //Adapter_Recipe
     ImageView recipe_img_IMG;
@@ -85,7 +102,6 @@ public class AppManager {
         upload_recipe_BTN = activity.findViewById(R.id.upload_recipe_BTN);
         logout_button = activity.findViewById(R.id.logout_button);
         user_img_IMG = activity.findViewById(R.id.user_img_IMG);
-        drawer_menu_IMG = activity.findViewById(R.id.drawer_menu_IMG);
     }
 
     public void findViewsUploadReciepe(AppCompatActivity activity){
@@ -94,7 +110,8 @@ public class AppManager {
         recipe_upload_IMG = activity.findViewById(R.id.recipe_upload_IMG);
         recipe_Name_LBL = activity.findViewById(R.id.recipe_Name_LBL);
         recipe_category_LBL = activity.findViewById(R.id.recipe_category_LBL);
-        recipe_description_LBL = activity.findViewById(R.id.recipe_description_LBL);
+        recipe_ingredients_UPLD_LBL = activity.findViewById(R.id.recipe_ingredients_UPLD_LBL);
+        recipe_directions_UPLD_LBL = activity.findViewById(R.id.recipe_directions_UPLD_LBL);
         preparation_Time_LBL = activity.findViewById(R.id.preparation_Time_LBL);
     }
 
@@ -103,7 +120,10 @@ public class AppManager {
         upload_recipe_BTN_myRcipes = activity.findViewById(R.id.upload_recipe_BTN_myRcipes);
 
     }
+    public void findViewsCategoriesScreen(AppCompatActivity activity){
+        backto_myFeed_BTN = activity.findViewById(R.id.backto_myFeed_BTN);
 
+    }
     public void findViewsAdpterRecipe(View itemView){
         recipe_img_IMG = itemView.findViewById(R.id.recipe_img_IMG);
         name_RECIPE_LBL = itemView.findViewById(R.id.name_RECIPE_LBL);
@@ -111,7 +131,16 @@ public class AppManager {
         prep_TIME_LBL = itemView.findViewById(R.id.prep_TIME_LBL);
         description__RECIPE_LBL = itemView.findViewById(R.id.description__RECIPE_LBL);
     }
+    public void findViewsFragmentRecipe(View itemView){
+        recipe_title_LBL = itemView.findViewById(R.id.recipe_title_LBL);
+        recipe_ingredients_LBL = itemView.findViewById(R.id.recipe_ingredients_LBL);
+        recipe_directions_LBL = itemView.findViewById(R.id.recipe_directions_LBL);
+        recipe_prep_time = itemView.findViewById(R.id.recipe_prep_time);
+        recipe_category = itemView.findViewById(R.id.recipe_category);
+        recipe_scpecific_IMG = itemView.findViewById(R.id.recipe_scpecific_IMG);
+        done_With_Recipe_BTN = itemView.findViewById(R.id.done_With_Recipe_BTN);
 
+    }
     public EditText getLogin_email_LBL() {
         return login_email_LBL;
     }
@@ -180,12 +209,16 @@ public class AppManager {
         return recipe_Name_LBL;
     }
 
-    public EditText getRecipe_category_LBL() {
+    public Spinner getRecipe_category_LBL() {
         return recipe_category_LBL;
     }
 
-    public EditText getRecipe_description_LBL() {
-        return recipe_description_LBL;
+    public EditText getRecipe_ingredients_UPLD_LBL() {
+        return recipe_ingredients_UPLD_LBL;
+    }
+
+    public EditText getRecipe_directions_UPLD_LBL() {
+        return recipe_directions_UPLD_LBL;
     }
 
     public EditText getPreparation_Time_LBL() {
@@ -196,12 +229,36 @@ public class AppManager {
         return user_img_IMG;
     }
 
-    public ImageView getDrawer_menu_IMG() {
-        return drawer_menu_IMG;
-    }
-
     public Button getUpload_recipe_BTN_myRcipes() {
         return upload_recipe_BTN_myRcipes;
     }
 
+
+    public TextView getRecipe_title_LBL() {
+        return recipe_title_LBL;
+    }
+
+    public TextView getRecipe_ingredients_LBL() {
+        return recipe_ingredients_LBL;
+    }
+
+    public TextView getRecipe_directions_LBL() {
+        return recipe_directions_LBL;
+    }
+
+    public TextView getRecipe_prep_time() {
+        return recipe_prep_time;
+    }
+
+    public TextView getRecipe_category() {
+        return recipe_category;
+    }
+
+    public ImageView getRecipe_scpecific_IMG() {
+        return recipe_scpecific_IMG;
+    }
+
+    public Button getDone_With_Recipe_BTN() {
+        return done_With_Recipe_BTN;
+    }
 }

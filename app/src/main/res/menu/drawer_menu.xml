@@ -4,6 +4,10 @@
     tools:showIn = "navigation_view">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/Profile"
+            android:icon="@drawable/profile"
+            android:title="Profile" />
+        <item
             android:id="@+id/Categories"
             android:icon="@drawable/category"
             android:title="Categories" />
@@ -15,9 +19,9 @@
             android:id="@+id/My_Wish_List"
             android:icon="@drawable/favorite"
             android:title="My Wish List" />
-        <item
-            android:id="@+id/Top_Ten_Recipes"
-            android:icon="@drawable/star"
-            android:title="Top Ten Recipes" />
+<!--        <item-->
+<!--            android:id="@+id/Recent_Recipes"-->
+<!--            android:icon="@drawable/star"-->
+<!--            android:title="Recent Recipes" />-->
     </group>
 </menu>

@@ -7,10 +7,10 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/wishList_RECY_LAY"
+        android:id="@+id/topTen_RECY_LAY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
 

@@ -1,34 +1,24 @@
-package com.example.shareeat;
+package com.example.shareeat.activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.shareeat.utils.AppManager;
+import com.example.shareeat.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import java.lang.annotation.Documented;
 
 public class Activity_Main extends AppCompatActivity implements View.OnClickListener {
     private AppManager appManager;
@@ -82,11 +72,15 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
     private void loginUser() {
         entered_email = login_email_LBL.getText().toString();
         entered_pass = login_password_LBL.getText().toString();
-        if (entered_email.isEmpty() | entered_pass.isEmpty()) {
-        Toast.makeText(Activity_Main.this,"Email or password is empty, please fill in the empty fields!",
-                Toast.LENGTH_LONG).show();
+        Log.d("email+pass","" + entered_email +"/"+ entered_pass);
+        if (entered_email.isEmpty() || entered_pass.isEmpty()) {
+            makeToast("Email or password is empty, please fill in the empty fields!");
             return;
-        } else {
+        }else if (!Patterns.EMAIL_ADDRESS.matcher(entered_email).matches()) {
+            Toast.makeText(getBaseContext(),"Please provide valid email!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }else {
             isUserExist();
         }
     }
@@ -109,21 +103,32 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
                             // If the system is unable to find the user, it issues an error message accordingly
                             if (task.getException().getMessage().contains("email")) {
                                 login_email_LBL.setError(task.getException().getMessage());
-                                Toast.makeText(Activity_Main.this,"Cant find user with email:" + login_email_LBL.getText().toString()+"!",
-                                        Toast.LENGTH_LONG).show();
+                                login_email_LBL.requestFocus();
+                                makeToast("Cant find user with email:" + login_email_LBL.getText().toString()+"!");
                             } else if (task.getException().getMessage().contains("password")) {
                                 login_password_LBL.setError(task.getException().getMessage());
-                                Toast.makeText(Activity_Main.this,"Incorrect password!",
-                                        Toast.LENGTH_LONG).show();
-                            } else if (task.getException().getMessage().contains("No such user!")) {
+                                login_password_LBL.requestFocus();
+                                makeToast("Incorrect password!");
+                            } else if (task.getException().getMessage().contains("user")) {
                                 login_email_LBL.setError(task.getException().getMessage());
-                                Toast.makeText(Activity_Main.this,"No such user!",
-                                        Toast.LENGTH_LONG).show();
+                                login_email_LBL.requestFocus();
+                                makeToast("No such user!");
                             }
                         }
                     }
                 });
     }
+
+    void makeToast(String string){
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(),string,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
     // Read user data from DB
 //    void readUserFromDB(final String userID) {
@@ -142,24 +147,6 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
 //                intent.putExtra("userInfo", String.valueOf(user));
 //                startActivity(intent);
 //            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-
-
-//
-//    private void readUserRecipesFromDB(final String userID) {
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Confectioneries/").child(userID);
-//
-//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Shop shop = snapshot.getValue(Shop.class);
-//            }
-//
 //            @Override
 //            public void onCancelled(@NonNull DatabaseError error) {
 //

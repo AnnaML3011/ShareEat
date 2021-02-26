@@ -1,4 +1,4 @@
-package com.example.shareeat;
+package com.example.shareeat.activities;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -11,9 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -21,13 +23,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.shareeat.utils.AppManager;
+import com.example.shareeat.fragments.Fragment_Recent_Recipes;
+import com.example.shareeat.fragments.Fragment_wishList;
+import com.example.shareeat.R;
+import com.example.shareeat.objects.Recipe;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -38,7 +42,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_MyFeed extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +57,8 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
     private Uri imageUri;
     private Uri downloadUri;
     private String uri_string;
+    private String userName;
+    private String userEmail;
     private StorageReference storageReference;
     private FirebaseAuth mAuth;
     private Object DocumentSnapshot;
@@ -62,42 +68,42 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
     private ActionBarDrawerToggle toggle;
     private NavigationView nav_view;
     private AppBarConfiguration mAppBarConfiguration;
-
+    private ImageView user_img_IMG_drawer;
+    private TextView user_name_LBL_drawer;
+    private TextView user_mail_LBL_drawer;
+    private TextView user_name_LBL;
+    private FrameLayout wishlist_LAY_list;
+    private List<Recipe> recipes_WishList;
+    private Fragment_wishList fragment_wishList;
+    private Fragment_Recent_Recipes recent_recipes;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_feed_screen);
+        setContentView(R.layout.drawer_main);
         appManager = new AppManager(this);
         appManager.findViewsMyFeed(this);
         mAuth = FirebaseAuth.getInstance();
+        fragment_wishList = new Fragment_wishList();
+        recent_recipes = new Fragment_Recent_Recipes();
+        menuNavigation();
         findViews();
         initViews();
+        this.setTitle(" ");
+        userEmail = getIntent().getStringExtra("email");
+        userName = getIntent().getStringExtra("userName");
+        setUserNameAndEmail(userName,userEmail);
+        getSupportFragmentManager().beginTransaction().add(R.id.wishlist_LAY_list, fragment_wishList).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.recentRecipes_LAY_list, recent_recipes).commit();
+
+    }
+
+    // Setting menu navigation
+    private void menuNavigation() {
         toolbar = findViewById(R.id.toolbar);
         drawer = findViewById(R.id.drawer_LAY);
         nav_view = findViewById(R.id.nav_view);
         setSupportActionBar(toolbar);
-
-
-//        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        Log.d("hereeeeeeeee",""+toggle + "drawer:" +drawer);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
-//        menuNavigation();
-
-    }
-    // Setting menu navigation
-    private void menuNavigation() {
-
-//        mAppBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.Categories, R.id.My_Recipes, R.id.WishList)
-//                .setDrawerLayout(drawer)
-//                .build();
-//        drawer.openDrawer(GravityCompat.START);
-//         nav_view.bringToFront();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(nav_view, navController);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         nav_view.setNavigationItemSelectedListener(this);
         toggle.syncState();
@@ -107,8 +113,11 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
         upload_recipe_BTN = appManager.getUpload_recipe_BTN();
         logout_button = appManager.getLogout_button();
         user_img_IMG = appManager.getUser_img_IMG();
-        drawer_menu_IMG = appManager.getDrawer_menu_IMG();
-
+        View header_view = nav_view.getHeaderView(0);
+        user_img_IMG_drawer = header_view.findViewById(R.id.user_img_IMG_drawer);
+        user_name_LBL_drawer = header_view.findViewById(R.id.user_name_LBL_drawer);
+        user_mail_LBL_drawer = header_view.findViewById(R.id.user_mail_LBL_drawer);
+        user_name_LBL = findViewById(R.id.user_name_LBL);
     }
 
     @Override
@@ -118,6 +127,7 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
                 myIntent = new Intent(Activity_MyFeed.this, Activity_UploadReciepe.class);
                 Log.d("AAAAAAAAAAA",""+Activity_MyFeed.this.toString());
                 myIntent.putExtra(F_WHICH_ACTIVITY, ACTIVITY_MYFEED);
+                myIntent.putExtra("userName",userName);
                 startActivity(myIntent);
                 finish();
                 break;
@@ -130,37 +140,50 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
             case R.id.user_img_IMG:
                 chooseImage();
                 break;
-            case R.id.drawer_menu_IMG: //for now just goes to MyRecipes
-                //TODO- check why drawer doesn't work.
-                myIntent = new Intent(Activity_MyFeed.this, Activity_MyRecipes.class);
-                startActivity(myIntent);
+            case R.id.user_img_IMG_drawer:
                 finish();
+                startActivity(getIntent());
                 break;
         }
     }
-//    @Override
-//    public void onBackPressed(){
-//        if(drawer.isDrawerOpen(GravityCompat.START)){
-//            drawer.closeDrawer(GravityCompat.START);
-//        }else{
-//            super.onBackPressed();
-//        }
-//    }
+    @Override
+    public void onBackPressed(){
+        if(drawer.isDrawerOpen(GravityCompat.END)){
+            drawer.closeDrawer(GravityCompat.END);
+        }else{
+            super.onBackPressed();
+        }
+    }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        if (drawer.isDrawerOpen(Gravity.LEFT)) {
-//            drawer.closeDrawer(Gravity.LEFT);
-//        }
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item != null && item.getItemId() == android.R.id.home) {
+            if (drawer.isDrawerOpen(Gravity.RIGHT)) {
+                drawer.closeDrawer(Gravity.RIGHT);
+            }
+            else {
+                drawer.openDrawer(Gravity.RIGHT);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (drawer.isDrawerOpen(Gravity.RIGHT)) {
+            drawer.closeDrawer(Gravity.RIGHT);
+        }
+    }
 
     private void initViews(){
         uri_string = "";
+        userName = "";
+        userEmail = "";
         upload_recipe_BTN.setOnClickListener(this);
         logout_button.setOnClickListener(this);
         user_img_IMG.setOnClickListener(this);
-        drawer_menu_IMG.setOnClickListener(this);
+        user_img_IMG_drawer.setOnClickListener(this);
         if (imageUri == null) {
             DocumentReference documentReference = FirebaseFirestore.getInstance()
                     .collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser().getUid()));
@@ -170,12 +193,14 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.getData().get("userImage") != null) {
-                                uri_string = document.getData().get("userImage").toString();
-                                if(uri_string!= null) {
-                                    imageUri = Uri.parse(uri_string);
-                                    changeUserProfileImage();
-                                    Log.d("success", "DocumentSnapshot data: " + document.getData().get("userImage") + "----" + imageUri);
-                                }
+                            uri_string = document.getData().get("userImage").toString();
+                            userName = document.getData().get("userName").toString();
+                            userEmail = document.getData().get("email").toString();
+                            setUserNameAndEmail(userName, userEmail);
+                            if(uri_string!= null) {
+                                imageUri = Uri.parse(uri_string);
+                                changeUserProfileImage();
+                            }
                         } else {
                             Log.d("not found", "No such document");
                         }
@@ -188,9 +213,16 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    private void setUserNameAndEmail(String name, String email){
+        user_name_LBL_drawer.setText(name);
+        user_mail_LBL_drawer.setText(email);
+        user_name_LBL.setText(name+"!");
+    }
+
     private void changeUserProfileImage() {
-        Log.d("success", "\nDocumentSnapshot data: " + "----" + imageUri);
+        Log.d("success", "\nDocumentSnapshot data: " + "----" + imageUri + user_img_IMG +user_img_IMG_drawer);
         Glide.with(this).load(imageUri).apply(RequestOptions.circleCropTransform()).into(user_img_IMG);
+        Glide.with(this).load(imageUri).apply(RequestOptions.circleCropTransform()).into(user_img_IMG_drawer);
     }
 
 
@@ -211,6 +243,7 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
                         imageUri = data.getData();
                         if(imageUri!= null){
                             Glide.with(this).load(imageUri).apply(RequestOptions.circleCropTransform()).into(user_img_IMG);
+                            Glide.with(this).load(imageUri).apply(RequestOptions.circleCropTransform()).into(user_img_IMG_drawer);
                             uploadImageToDB();
                         }
                         //data gives you the image uri. Try to convert that to bitmap
@@ -252,6 +285,27 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.Categories:
+                intent = new Intent(Activity_MyFeed.this, Activity_Categories.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.My_Recipes:
+                intent = new Intent(Activity_MyFeed.this, Activity_MyRecipes.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.My_Wish_List:
+                intent = new Intent(Activity_MyFeed.this, Activity_MyWishList.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.Profile:
+                Log.d("navigate:","recent Recipes");
+                break;
+        }
         return true;
     }
 }

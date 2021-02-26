@@ -7,12 +7,23 @@
     android:id="@+id/drawer_LAY"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context=".Activity_MyFeed">
+    tools:context=".activities.Activity_MyFeed">
 
     <include
         layout="@layout/my_feed_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+<!--    <include-->
+<!--        layout="@layout/my_recieps_screen"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+<!--    <include-->
+<!--        layout="@layout/categories_screen"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,10 +33,11 @@
         <androidx.appcompat.widget.Toolbar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_marginTop="25dp"
             android:id="@+id/toolbar"
-            android:elevation="4dp"
-            android:padding="5dp"/>
+            android:elevation="0dp"
+            android:layout_marginLeft="-7dp"
+            android:padding="0dp"/>
 
         <FrameLayout
             android:id="@+id/fragment_drawer"
@@ -34,7 +46,6 @@
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
-
         android:id="@+id/nav_view"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu"

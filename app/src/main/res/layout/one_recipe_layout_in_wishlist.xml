@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/pink"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="20dp"
+    android:weightSum="1.0" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/light_pink">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" >
+
+            <ImageView
+                android:id="@+id/recipe_img_IMG"
+                android:layout_width="fill_parent"
+                android:layout_height="220dp"
+                android:maxHeight="50dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/food3" />
+
+            <ImageButton
+                android:id="@+id/save_to_WL_BTN_myRecipes"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_heart_filled_pink" />
+
+<!--            <androidx.appcompat.widget.AppCompatRatingBar-->
+<!--                style="@style/Widget.AppCompat.RatingBar.Small"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignBottom="@id/recipe_img_IMG"-->
+<!--                android:layout_alignLeft="@+id/recipe_img_IMG"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:background="#61FFFFFF"-->
+<!--                android:theme="@style/RatingBar"-->
+<!--                android:rating="4" />-->
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="220dp"
+            android:layout_weight="0.3"
+            android:background="@color/light_pink"
+            android:gravity="top"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/name_RECIPE_LBL"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:drawablePadding="2dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textStyle="bold"
+                android:fontFamily="@font/sofia_regular"
+                android:layout_marginLeft="5dp"
+                android:text="Buisquit Cake"
+                android:textColor="#6a6a6a"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/category_RECIPE_LBL"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:layout_marginLeft="5dp"
+                android:text="Desserts"
+                android:textColor="#6a6a6a"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/recipe_prep_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/prep_TIME_LBL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="1dp"
+                    android:ellipsize="marquee"
+                    android:minHeight="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:padding="2dp"
+                    android:singleLine="true"
+                    android:text="20min"
+                    android:textColor="#6a6a6a"
+                    android:textSize="16sp" />
+
+                <ImageView
+                android:layout_width="20dp"
+                android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                android:src="@drawable/ic_clock"
+                android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:padding="2dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:singleLine="true"
+                android:text="Description: "
+                android:textColor="#6a6a6a"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/description__RECIPE_LBL"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:padding="2dp"
+                android:maxLines="4"
+                android:layout_marginLeft="5dp"
+                android:text="dretrfgrtgtrgrtgtrgrgtgrgtgrtgrrtgrgfetgvdgvgrtvrtgvrtgvrtgvtrgvtrgvrtgrtggjhgh "
+                android:ellipsize="end"
+                android:textColor="#6a6a6a"
+                android:textSize="16sp"
+                android:layout_marginRight="12dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

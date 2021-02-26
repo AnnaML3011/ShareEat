@@ -1,4 +1,4 @@
-package com.example.shareeat;
+package com.example.shareeat.activities;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -11,10 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.shareeat.utils.AppManager;
+import com.example.shareeat.R;
+import com.example.shareeat.objects.Recipe;
+import com.example.shareeat.objects.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,6 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -37,12 +45,14 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
     private ImageButton backto_myFeed_BTN;
     private ImageView recipe_upload_IMG;
     private EditText recipe_Name_LBL;
-    private EditText recipe_category_LBL;
-    private EditText recipe_description_LBL;
+    private Spinner recipe_category_LBL;
+    EditText recipe_ingredients_UPLD_LBL;
+    EditText recipe_directions_UPLD_LBL;
     private EditText preparation_Time_LBL;
     private String recipeName;
     private Recipe.RecipeCategory recipeCategory;
-    private String recipeDes;
+    private String recipeIng;
+    private String recipeDir;
     private String recipePreTime;
     private FirebaseAuth mAuth;
     private Recipe recipe;
@@ -54,7 +64,9 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
     private String uri_string;
     private StorageReference storageReference;
     private String which_Activity;
-
+    private boolean isInWL;
+    private String userName;
+    private String userEmail;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +87,8 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
         recipe_upload_IMG = appManager.getRecipe_upload_IMG();
         recipe_Name_LBL = appManager.getRecipe_Name_LBL();
         recipe_category_LBL = appManager.getRecipe_category_LBL();
-        recipe_description_LBL = appManager.getRecipe_description_LBL();
+        recipe_ingredients_UPLD_LBL = appManager.getRecipe_ingredients_UPLD_LBL();
+        recipe_directions_UPLD_LBL = appManager.getRecipe_directions_UPLD_LBL();
         preparation_Time_LBL = appManager.getPreparation_Time_LBL();
     }
 
@@ -83,6 +96,8 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
         recipe_upload_IMG.setOnClickListener(this);
         doneUpload_BTN.setOnClickListener(this);
         backto_myFeed_BTN.setOnClickListener(this);
+        userEmail = getIntent().getStringExtra("email");
+        userName = getIntent().getStringExtra("userName");
     }
 
     @Override
@@ -158,30 +173,6 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
         }
     }
 
-//    private void uploadRecipe(){
-//        addSpecificRecipe();
-//        FirebaseFirestore.getInstance().collection("Users")
-//                .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userRecipes").document(Objects.requireNonNull(recipeName + "-"+mAuth.getCurrentUser().getUid()))
-//                .set(recipes).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if(task.isSuccessful()){
-//                    Toast.makeText(Activity_UploadReciepe.this,"Recipe has been uploaded successfully!",
-//                            Toast.LENGTH_LONG).show();
-//                    //TODO add progress bar
-//                    Intent myIntent = new Intent(Activity_UploadReciepe.this, Activity_MyFeed.class);
-//                    startActivity(myIntent);
-//                    finish();
-//                }else{
-//                    Toast.makeText(Activity_UploadReciepe.this,"Failed to upload recipe! Try again!",
-//                            Toast.LENGTH_LONG).show();
-//                    Log.d("failed","Failed to upload recipe! Try again");
-//                }
-//            }
-//        });
-//      updateRecipesList();
-//    }
-
     private void uploadRecipe(){
         addSpecificRecipe();
         FirebaseFirestore.getInstance().collection("Users")
@@ -192,9 +183,9 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
                 if(task.isSuccessful()){
                     Toast.makeText(Activity_UploadReciepe.this,"Recipe has been uploaded successfully!",
                             Toast.LENGTH_LONG).show();
+                    updateRecipesList();
                     //TODO add progress bar
                     which_Activity = getIntent().getStringExtra(F_WHICH_ACTIVITY);
-                    Log.d("hereeeeeeeeeee",which_Activity);
                     if(which_Activity.equals("Activity_MyRecipes")) {
                         Intent myIntent = new Intent(Activity_UploadReciepe.this, Activity_MyRecipes.class);
                         startActivity(myIntent);
@@ -212,7 +203,7 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
                 }
             }
         });
-        updateRecipesList();
+//        updateRecipesList();
     }
 
     private void updateRecipesList() {
@@ -226,36 +217,40 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
     }
 
     private void addSpecificRecipe(){
+        isInWL = false;
         recipeName = recipe_Name_LBL.getText().toString();
-        recipeDes = recipe_description_LBL.getText().toString();
+        recipeIng = recipe_ingredients_UPLD_LBL.getText().toString();
+        recipeDir = recipe_directions_UPLD_LBL.getText().toString();
         recipePreTime = preparation_Time_LBL.getText().toString();
-        String category = recipe_category_LBL.getText().toString();
+        String category = recipe_category_LBL.getSelectedItem().toString();
         recipeCategory = Recipe.RecipeCategory.valueOf(category);
         imageUri = downloadUri;
         uri_string = imageUri.toString();
-        //chnaged the Recipe recipe ->to recipe =
-        recipe = new Recipe(recipeName, recipeDes, recipePreTime, recipeCategory, uri_string);
+        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string ,isInWL, System.currentTimeMillis());
         recipes.add(recipe);
         user.addRecipe(recipes);
+        updateUserRecipes();
         userRecipes.put(recipeName+"-"+mAuth.getCurrentUser().getUid(), recipe);
+    }
+
+    private void updateUserRecipes(){
+        FirebaseFirestore.getInstance().collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userRecipes").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        if (documentSnapshots.isEmpty()) {
+                            Log.d("empty", "onSuccess: LIST EMPTY");
+                            return;
+                        } else {
+                            for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
+                                Recipe recipe1 = ds.toObject(Recipe.class);
+                                userRecipes.put(recipeName+"-"+mAuth.getCurrentUser().getUid(), recipe1);                            }
+                        }
+                    }
+                });
+
     }
 
 
 
-//    addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//        @Override
-//        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//            if (task.isSuccessful()) {
-//                DocumentSnapshot document = task.getResult();
-//                if (document.exists()) {
-//                    document.getData().get("userRecipes");
-//                    Log.d("success", "Upload Recipe: " + document.getData().get("userRecipes"));
-//                } else {
-//                    Log.d("not found", "No such document");
-//                }
-//            } else {
-//                Log.d("failed", "get failed with ", task.getException());
-//            }
-//        }
-//    });
 }

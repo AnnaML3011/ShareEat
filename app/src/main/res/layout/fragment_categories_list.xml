@@ -5,12 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/p_200"
-    tools:context=".Activity_Main">
+    android:background="@color/white"
+    tools:context=".activities.Activity_Main">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categories_LST_names"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
 
 </RelativeLayout>

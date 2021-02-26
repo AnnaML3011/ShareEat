@@ -1,7 +1,6 @@
-package com.example.shareeat;
+package com.example.shareeat.objects;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class User {
     private String email, UserName;

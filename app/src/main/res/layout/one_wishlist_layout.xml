@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="30dp"
+    app:cardBackgroundColor="@color/p_200"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/recipe_title_WL_LBL"
+            android:layout_width="150dp"
+            android:layout_height="160dp"
+            android:text="Green Salad"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:paddingTop="120dp"
+            android:fontFamily="@font/sofia_regular"
+            android:textColor="@color/gray"/>
+
+        <ImageView
+            android:id="@+id/recipe_image_WL_IMG"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:layout_weight="1.8"
+            android:src="@drawable/food3"
+            />
+
+        <ImageButton
+            android:id="@+id/save_to_WL_BTN"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_heart_filled_pink" />
+
+    </RelativeLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

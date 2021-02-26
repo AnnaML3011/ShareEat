@@ -1,7 +1,6 @@
-package com.example.shareeat;
+package com.example.shareeat.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,9 +9,9 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-
-import java.util.Collections;
+import com.example.shareeat.utils.AppManager;
+import com.example.shareeat.fragments.Fragment_MyRecipes;
+import com.example.shareeat.R;
 
 public class Activity_MyRecipes extends AppCompatActivity  {
     private static final String F_WHICH_ACTIVITY = "F_WHICH_ACTIVITY";
@@ -20,6 +19,8 @@ public class Activity_MyRecipes extends AppCompatActivity  {
     private ImageButton backto_myFeed_BTN;
     private Button upload_recipe_BTN_myRcipes;
     private Fragment_MyRecipes fragment_myRecipes;
+//    private Fragment_Recipe fragment_recipe;
+
     private AppManager appManager;
     RecyclerView myRecipes_RECY_LAY ;
     private Intent myIntent;
@@ -36,6 +37,7 @@ public class Activity_MyRecipes extends AppCompatActivity  {
         appManager = new AppManager(this);
         appManager.findViewsMyRecipes(this);
         fragment_myRecipes = new Fragment_MyRecipes();
+//        fragment_recipe = new Fragment_Recipe();
         findViews();
         initViews();
         getSupportFragmentManager().beginTransaction().add(R.id.myRecipes_LAY_list, fragment_myRecipes).commit();
@@ -70,12 +72,9 @@ public class Activity_MyRecipes extends AppCompatActivity  {
     }
 
 //    @Override
-//    public void onItemClick(View view, int position) {
-//
+//    public void setRecipeInfo(Recipe recipe) {
+//        fragment_recipe.get_recipe_info(recipe);
 //    }
-//
-//    @Override
-//    public void onReadMoreClicked(View view, Recipe recipe) {
-//
-//    }
+
+
 }

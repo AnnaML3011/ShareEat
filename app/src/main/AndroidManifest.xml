@@ -14,17 +14,22 @@
 <!--            android:name=".DrawerActivity"-->
 <!--            android:label="@string/title_activity_drawer"-->
 <!--            android:theme="@style/Theme.ShareEat.NoActionBar"></activity>-->
-        <activity android:name=".Activity_Main">
+        <activity android:name=".activities.Activity_Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity_MyFeed" />
-        <activity android:name=".Activity_SignUp" />
-        <activity android:name=".Activity_UploadReciepe" />
-        <activity android:name=".Activity_MyRecipes" />
+        <activity android:name=".activities.Activity_MyFeed" />
+        <activity android:name=".activities.Activity_SignUp" />
+        <activity android:name=".activities.Activity_UploadReciepe" />
+        <activity android:name=".activities.Activity_MyRecipes" />
+        <activity android:name=".activities.Activity_Categories" />
+        <activity android:name=".activities.Activity_Specific_Recipe" />
+        <activity android:name=".activities.Activity_MyWishList" />
+
+
 
     </application>
 
