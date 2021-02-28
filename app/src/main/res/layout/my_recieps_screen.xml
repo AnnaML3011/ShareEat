@@ -55,13 +55,6 @@
             android:layout_height="50dp"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/logout_button"
-                android:layout_width="30dp"
-                android:layout_height="27dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/ic_log_out" />
 
             <Button
                 android:id="@+id/upload_recipe_BTN_myRcipes"
@@ -71,7 +64,7 @@
                 android:text="+"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="115dp"/>
+                android:layout_marginHorizontal="160dp"/>
 
         </LinearLayout>
 

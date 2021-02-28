@@ -28,9 +28,9 @@ public class FB_Manager {
     boolean isInWL;
 
 
-    public void uploadRecipeToUserWishList(String recipeName , Recipe recipe, FirebaseAuth mAuth){
+    public void uploadRecipeToUserWishList(Recipe recipe, FirebaseAuth mAuth){
         FirebaseFirestore.getInstance().collection("Users")
-                .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userWishList").document(Objects.requireNonNull(recipeName +"-"+mAuth.getCurrentUser().getUid()))
+                .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userWishList").document(Objects.requireNonNull(recipe.getRecipeName() +"-"+mAuth.getCurrentUser().getUid()))
                 .set(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -50,7 +50,7 @@ public class FB_Manager {
         recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, imageUri, isInWishList, System.currentTimeMillis());
 //        recipes_WishList.add(recipe);
         recipes_WishList.add(recipe);
-        uploadRecipeToUserWishList(recipeName ,recipe, mAuth);
+        uploadRecipeToUserWishList(recipe, mAuth);
     }
 
     public void removeRecipeFromWishList(String recipeName, FirebaseAuth mAuth , Context context){

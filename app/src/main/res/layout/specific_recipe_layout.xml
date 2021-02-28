@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true">
 
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="20dp"
     app:cardCornerRadius="20dp"
     app:cardBackgroundColor="@color/p_200"
@@ -35,6 +35,16 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/ic_arrow" />
+
+        <ImageButton
+            android:id="@+id/edit_BTN"
+            android:layout_width="25dp"
+            android:layout_height="27dp"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/back_button"
+            android:layout_marginHorizontal="280dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_edit" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,12 +149,12 @@
                 android:id="@+id/recipe_ingredients_LBL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="1 cup all-purpose flour\n½ teaspoon salt\n1 ½ teaspoons baking powder"
-                android:textSize="20dp"
-                android:textStyle=""
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:textColor="@color/gray"/>
+                android:text="1 cup all-purpose flour\n½ teaspoon salt\n1 ½ teaspoons baking powder"
+                android:textColor="@color/gray"
+                android:textSize="20dp"
+                android:textStyle="" />
 
             <TextView
                 android:layout_width="match_parent"

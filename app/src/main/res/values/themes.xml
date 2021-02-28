@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.ShareEat" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/gray_100</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/gray</item>
         <!-- Secondary brand color. -->

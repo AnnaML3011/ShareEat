@@ -302,8 +302,11 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.Profile:
-                Log.d("navigate:","recent Recipes");
+            case R.id.Log_Out:
+                FirebaseAuth.getInstance().signOut();
+                myIntent = new Intent(Activity_MyFeed.this, Activity_Main.class);
+                startActivity(myIntent);
+                finish();
                 break;
         }
         return true;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_Array_Edit">
+        <item>Category</item>
+        <item>Desserts</item>
+        <item>Salads</item>
+        <item>Soups</item>
+        <item>SideDishes</item>
+        <item>Italic</item>
+        <item>Meat</item>
+        <item>Vegetarian</item>
+        <item>Asian</item>
+    </string-array>
+</resources>

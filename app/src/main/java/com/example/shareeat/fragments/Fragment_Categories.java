@@ -123,9 +123,7 @@ public class Fragment_Categories extends Fragment {
 
                                     @Override
                                     public void onAddToWishListClicked(View view, Recipe recipe) {
-                                        isInWL = true;
-                                        fb_manager.addSpecificRecipe(recipe.getRecipeName(),recipe.getRecipeIngredients(), recipe.getRecipeDirections(), recipe.getPreparationTime(),recipe.getCategory().toString(), recipe.getRecipeImage(), isInWL,mAuth);
-//                                        fb_manager.uploadRecipe(recipe.getRecipeName(),recipe, mAuth);
+                                        fb_manager.setOnAddToWishList(view, recipe, mAuth, getContext());
                                     }
                                 });
                             }

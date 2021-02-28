@@ -43,6 +43,7 @@ public class Activity_Specific_Recipe extends AppCompatActivity {
     private Recipe recipe = new Recipe();
     private String fragment_tag;
     private Intent myIntent;
+    private ImageView edit_BTN;
 
     //TODO CHECK WHY BUTTON GARY AND + NOT IN CENTER
 
@@ -70,6 +71,7 @@ public class Activity_Specific_Recipe extends AppCompatActivity {
         recipe_prep_time = findViewById(R.id.recipe_prep_time);
         recipe_category = findViewById(R.id.recipe_category);
         recipe_scpecific_IMG = findViewById(R.id.recipe_scpecific_IMG);
+        edit_BTN = findViewById(R.id.edit_BTN);
     }
 
     private void initViews() {
@@ -89,6 +91,17 @@ public class Activity_Specific_Recipe extends AppCompatActivity {
                 checkWhichActivityToGo();
             }
         });
+        edit_BTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myIntent = new Intent(Activity_Specific_Recipe.this, Activity_Edit_Recipe.class);
+                myIntent.putExtra("isInWL", recipe.isInWishList());
+                myIntent.putExtra("Recipe",recipe);
+                myIntent.putExtra("tag",fragment_tag);
+                startActivity(myIntent);
+                finish();
+            }
+        }) ;
     }
 
     public void checkWhichActivityToGo(){
@@ -96,22 +109,26 @@ public class Activity_Specific_Recipe extends AppCompatActivity {
         switch (fragment_tag) {
             case "Fragment_MyRecipes":
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_MyRecipes.class);
+                myIntent.putExtra("Recipe",recipe);
                 startActivity(myIntent);
                 finish();
                 break;
             case "Fragment_Categories":
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_Categories.class);
+                myIntent.putExtra("Recipe",recipe);
                 startActivity(myIntent);
                 finish();
                 break;
             case "Fragment_wishList":
             case "Fragment_Recent_Recipes":
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_MyFeed.class);
+                myIntent.putExtra("Recipe",recipe);
                 startActivity(myIntent);
                 finish();
                 break;
             case "Fragment_myWL":
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_MyWishList.class);
+                myIntent.putExtra("Recipe",recipe);
                 startActivity(myIntent);
                 finish();
                 break;
@@ -125,11 +142,6 @@ public class Activity_Specific_Recipe extends AppCompatActivity {
         recipe_prep_time.setText(recipe.getPreparationTime());
         recipe_category.setText(recipe.getCategory().toString());
         Glide.with(this).load(recipe.getRecipeImage()).apply(RequestOptions.centerInsideTransform()).into(recipe_scpecific_IMG);
-        recipe.getTimeAndDate();
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-        Date date = new Date( recipe.getTimeAndDate());
-        Time time = new Time(date.getTime());
-        Log.d("dateeeee", ""+time.toString()  );
     }
 }
 

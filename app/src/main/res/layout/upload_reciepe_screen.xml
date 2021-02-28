@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
-        android:background="@color/white">
+        android:background="@drawable/food5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,6 +55,7 @@
             android:layout_height="250dp"
             android:scaleType="fitXY"
             android:src="@drawable/add_image1"
+            android:background="@drawable/roundcorner"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"/>
 
@@ -153,7 +154,7 @@
                 android:id="@+id/doneUpload_BTN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button"
+                android:background="@drawable/button2"
                 android:text="upload"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center_horizontal" />
