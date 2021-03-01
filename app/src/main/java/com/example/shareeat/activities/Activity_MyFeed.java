@@ -1,5 +1,4 @@
 package com.example.shareeat.activities;
-
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -11,27 +10,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.ui.AppBarConfiguration;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.shareeat.utils.AppManager;
 import com.example.shareeat.fragments.Fragment_Recent_Recipes;
 import com.example.shareeat.fragments.Fragment_wishList;
 import com.example.shareeat.R;
-import com.example.shareeat.objects.Recipe;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -41,13 +34,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.util.List;
 import java.util.Objects;
+
 
 public class Activity_MyFeed extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String F_WHICH_ACTIVITY = "F_WHICH_ACTIVITY";
     private static final String ACTIVITY_MYFEED = "Activity_MyFeed";
+    private static final String A_TAG = "A_tag";
     private static final int REQUEST_CODE = 1;
     private AppManager appManager;
     private Button upload_recipe_BTN;
@@ -61,21 +54,18 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
     private String userEmail;
     private StorageReference storageReference;
     private FirebaseAuth mAuth;
-    private Object DocumentSnapshot;
-    private ImageView drawer_menu_IMG;
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private ActionBarDrawerToggle toggle;
     private NavigationView nav_view;
-    private AppBarConfiguration mAppBarConfiguration;
     private ImageView user_img_IMG_drawer;
     private TextView user_name_LBL_drawer;
     private TextView user_mail_LBL_drawer;
     private TextView user_name_LBL;
-    private FrameLayout wishlist_LAY_list;
-    private List<Recipe> recipes_WishList;
     private Fragment_wishList fragment_wishList;
     private Fragment_Recent_Recipes recent_recipes;
+    private String tag;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,13 +77,18 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
         recent_recipes = new Fragment_Recent_Recipes();
         menuNavigation();
         findViews();
-        initViews();
         this.setTitle(" ");
-        userEmail = getIntent().getStringExtra("email");
-        userName = getIntent().getStringExtra("userName");
-        setUserNameAndEmail(userName,userEmail);
+        tag = getIntent().getStringExtra(A_TAG);
+        if(tag!= null) {
+            if (tag.equals("Activity_SignUp")) {
+                userEmail = getIntent().getStringExtra("email");
+                userName = getIntent().getStringExtra("userName");
+                setUserNameAndEmail(userName, userEmail);
+            }
+        }
         getSupportFragmentManager().beginTransaction().add(R.id.wishlist_LAY_list, fragment_wishList).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.recentRecipes_LAY_list, recent_recipes).commit();
+        initViews();
 
     }
 
@@ -194,9 +189,9 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
                         DocumentSnapshot document = task.getResult();
                         if (document.getData().get("userImage") != null) {
                             uri_string = document.getData().get("userImage").toString();
-                            userName = document.getData().get("userName").toString();
-                            userEmail = document.getData().get("email").toString();
-                            setUserNameAndEmail(userName, userEmail);
+
+                            Log.d("userDetails" , ""+userName +";;;;;" + userEmail);
+
                             if(uri_string!= null) {
                                 imageUri = Uri.parse(uri_string);
                                 changeUserProfileImage();
@@ -204,6 +199,9 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
                         } else {
                             Log.d("not found", "No such document");
                         }
+                        userName = document.getData().get("userName").toString();
+                        userEmail = document.getData().get("email").toString();
+                        setUserNameAndEmail(userName, userEmail);
                     } else {
                         Log.d("failed", "get failed with ", task.getException());
                     }
@@ -302,8 +300,11 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.Profile:
-                Log.d("navigate:","recent Recipes");
+            case R.id.Log_Out:
+                FirebaseAuth.getInstance().signOut();
+                myIntent = new Intent(Activity_MyFeed.this, Activity_Main.class);
+                startActivity(myIntent);
+                finish();
                 break;
         }
         return true;

@@ -1,30 +1,34 @@
 package com.example.shareeat.activities;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
+import com.example.shareeat.fragments.Fragment_All_Category_Recipes;
 import com.example.shareeat.utils.AppManager;
-import com.example.shareeat.fragments.Fragment_Categories;
 import com.example.shareeat.R;
 
-public class Activity_Categories extends AppCompatActivity  {
+public class Activity_All_Category_Recipes extends AppCompatActivity {
     private ImageButton backto_myFeed_BTN;
-    private Fragment_Categories fragment_categories;
     private AppManager appManager;
+    String category;
+    Fragment_All_Category_Recipes fragment_all_category_recipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.categories_screen);
+        setContentView(R.layout.all_category_recipes_screen);
         super.onCreate(savedInstanceState);
         appManager = new AppManager(this);
         appManager.findViewsCategoriesScreen(this);
-        fragment_categories = new Fragment_Categories();
+        fragment_all_category_recipes = new Fragment_All_Category_Recipes();
         findViews();
         initViews();
-        getSupportFragmentManager().beginTransaction().add(R.id.categories_LAY_list, fragment_categories).commit();
+        category = getIntent().getStringExtra("category");
+        Log.d("Category@@@@@@",""+category);
+        getSupportFragmentManager().beginTransaction().add(R.id.categories_LAY_list, fragment_all_category_recipes).commit();
+        fragment_all_category_recipes.refresh(category);
+
     }
 
     private void findViews() {
@@ -35,7 +39,7 @@ public class Activity_Categories extends AppCompatActivity  {
         backto_myFeed_BTN.setOnClickListener(new  View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(Activity_Categories.this, Activity_MyFeed.class);
+                Intent myIntent = new Intent(Activity_All_Category_Recipes.this, Activity_Categories.class);
                 startActivity(myIntent);
                 finish();
             }

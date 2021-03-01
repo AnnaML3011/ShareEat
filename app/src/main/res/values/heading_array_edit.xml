@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="category_Array">
-        <item>Select Category</item>
+    <string-array name="category_Array_Edit">
+        <item>Category</item>
         <item>Desserts</item>
         <item>Salads</item>
         <item>Soups</item>

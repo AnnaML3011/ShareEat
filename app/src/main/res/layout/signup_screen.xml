@@ -36,7 +36,7 @@
             android:textSize="70dp"
             android:textStyle="bold"
             android:fontFamily="@font/sofia_regular"
-            android:textColor="@color/g_800"
+            android:textColor="@color/g_700"
             android:gravity="center_horizontal"/>
 
     </LinearLayout>

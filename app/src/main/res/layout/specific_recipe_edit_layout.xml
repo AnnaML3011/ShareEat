@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/p_200"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/recipe_scpecific_Edit_IMG"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:layout_weight="2"
+                android:src="@drawable/food3"/>
+
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="25dp"
+                android:layout_height="27dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_arrow" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="210dp">
+
+                <LinearLayout
+                    android:id="@+id/recipe_prep_time_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_clock" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="prep"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#99333333"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/recipe_prep_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="10 min."
+                        android:layout_marginTop="10dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#333333" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/recipe_cook_time_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_bake" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="category"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="#99333333"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/recipe_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingHorizontal="50dp"
+                        android:foregroundGravity="center_horizontal"
+                        android:entries="@array/category_Array_Edit"
+                        android:background="@drawable/dropdown"
+                        android:textColor="@color/gray_200"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:spinnerMode="dropdown" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="300dp">
+
+                <TextView
+                    android:id="@+id/recipe_title_LBL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Choclate Cake"
+                    android:textSize="28dp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:fontFamily="@font/sofia_regular"
+                    android:textColor="@color/gray"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Ingredients:"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:layout_marginVertical="5dp"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/gray"/>
+
+                <EditText
+                    android:id="@+id/recipe_ingredients_LBL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="1 cup all-purpose flour\n½ teaspoon salt\n1 ½ teaspoons baking powder"
+                    android:textColor="@color/gray"
+                    android:textSize="20dp"
+                    android:textStyle="" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Directions:"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_marginVertical="5dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/gray"/>
+
+                <EditText
+                    android:id="@+id/recipe_directions_LBL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Step 1\nPreheat oven to 350 degrees F (175 degrees C).\nStep 2\nCream together the butter, white sugar, and brown sugar until smooth. Beat in the eggs one at a time, then stir in the vanilla. Dissolve baking soda in hot water. Add to batter along with salt. Stir in flour, chocolate chips, and nuts. Drop by large spoonfuls onto ungreased pans.
+\nStep 3\nBake for about 10 minutes in the preheated oven, or until edges are nicely browned."
+                    android:textSize="20dp"
+                    android:textStyle=""
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/gray"/>
+
+                <Button
+                    android:id="@+id/done_With_Edit_Recipe_BTN"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:text="done"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="30dp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</ScrollView>
