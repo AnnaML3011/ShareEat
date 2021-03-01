@@ -43,7 +43,7 @@
                 android:text="Upload New Reciepe"
                 android:textSize="30dp"
                 android:textStyle="bold"
-                android:textColor="@color/g_800"
+                android:textColor="@color/g_700"
                 android:fontFamily="@font/sofia_regular"
                 android:gravity="center_horizontal"/>
 

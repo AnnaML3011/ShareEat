@@ -35,9 +35,7 @@ public class AppManager {
     Button upload_recipe_BTN;
     ImageButton logout_button;
     ImageView user_img_IMG;
-//    ImageView user_img_IMG_drawer;
-//    TextView user_name_LBL;
-//    TextView user_mail_LBL;
+
 
     //UploadReciepe Screen
     ImageButton backto_myFeed_BTN;
@@ -68,7 +66,6 @@ public class AppManager {
 
     //MyRecipes Screen
     Button upload_recipe_BTN_myRcipes;
-//    ImageButton backto_myFeed_MyRec_BTN;
     RecyclerView myRecipes_RECY_LAY;
 
     public AppManager(AppCompatActivity activity){
@@ -233,32 +230,4 @@ public class AppManager {
         return upload_recipe_BTN_myRcipes;
     }
 
-
-    public TextView getRecipe_title_LBL() {
-        return recipe_title_LBL;
-    }
-
-    public TextView getRecipe_ingredients_LBL() {
-        return recipe_ingredients_LBL;
-    }
-
-    public TextView getRecipe_directions_LBL() {
-        return recipe_directions_LBL;
-    }
-
-    public TextView getRecipe_prep_time() {
-        return recipe_prep_time;
-    }
-
-    public TextView getRecipe_category() {
-        return recipe_category;
-    }
-
-    public ImageView getRecipe_scpecific_IMG() {
-        return recipe_scpecific_IMG;
-    }
-
-    public Button getDone_With_Recipe_BTN() {
-        return done_With_Recipe_BTN;
-    }
 }

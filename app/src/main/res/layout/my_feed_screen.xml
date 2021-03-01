@@ -97,7 +97,7 @@
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:paddingTop="5dp"
-                android:textColor="@color/g_800"
+                android:textColor="@color/g_700"
                 android:fontFamily="@font/sofia_regular"
                 android:background="@color/white"/>
 
@@ -108,6 +108,7 @@
                 android:layout_height="170dp"
                 android:background="@color/white"/>
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,7 +116,7 @@
                 android:paddingLeft="15dp"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                android:textColor="@color/g_800"
+                android:textColor="@color/g_700"
                 android:fontFamily="@font/sofia_regular"
                 android:background="@color/white"/>
 

@@ -1,9 +1,7 @@
 package com.example.shareeat.activities;
-
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -13,17 +11,14 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.shareeat.R;
-
 import java.util.concurrent.Executor;
 
 public class Activity_Splash extends AppCompatActivity {
 
-    private final int ANIMATION_DURATION = 2500;
+    private final int ANIMATION_DURATION = 3000;
     private ImageView splash_IMG_logo;
 
     @Override
@@ -45,7 +40,7 @@ public class Activity_Splash extends AppCompatActivity {
     }
 
     private void startAnimation(View view) {
-        final ScaleAnimation anim = new ScaleAnimation(0.5f, 1.1f, 0.5f, 1.1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        final ScaleAnimation anim = new ScaleAnimation(0.4f, 1f, 0.4f, 1f, Animation.RELATIVE_TO_SELF, 0.1f, Animation.RELATIVE_TO_SELF, 0.1f);
         anim.setDuration(ANIMATION_DURATION);
         view.setAnimation(anim);
 //        RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);

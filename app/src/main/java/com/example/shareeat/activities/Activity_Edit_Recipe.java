@@ -14,11 +14,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.shareeat.utils.AppManager;
@@ -32,25 +29,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 
 public class Activity_Edit_Recipe extends AppCompatActivity {
-    private static final String F_WHICH_ACTIVITY = "F_WHICH_ACTIVITY";
-    private static final String ACTIVITY_MYRECIPES = "Activity_MyRecipes";
     private static final int REQUEST_CODE = 1;
     private ImageButton back_button;
     private Button done_With_Edit_Recipe_BTN;
-
     private Fragment_MyRecipes fragment_myRecipes;
-//    private Fragment_Recipe fragment_recipe;
-
     private AppManager appManager;
-    RecyclerView myRecipes_RECY_LAY ;
     private TextView recipe_title_LBL;
     private EditText recipe_ingredients_LBL;
     private EditText recipe_directions_LBL;
@@ -72,6 +59,11 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
     private  FirebaseAuth mAuth;
     private String fragment_tag;
     private FB_Manager fb_manager;
+    private ContentResolver cR;
+    private MimeTypeMap mime;
+    private String category;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.specific_recipe_edit_layout);
@@ -81,11 +73,10 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
         fb_manager = new FB_Manager();
         fragment_myRecipes = new Fragment_MyRecipes();
         mAuth = FirebaseAuth.getInstance();
-
-//        fragment_recipe = new Fragment_Recipe();
+        cR = getContentResolver();
+        mime = MimeTypeMap.getSingleton();
         findViews();
         initViews();
-//        getSupportFragmentManager().beginTransaction().add(R.id.myRecipes_LAY_list, fragment_myRecipes).commit();
     }
 
     private void findViews() {
@@ -103,6 +94,7 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
         fragment_tag = getIntent().getStringExtra("tag");
         isRecipeInwl = getIntent().getBooleanExtra("isInWL",false);
         recipe = (Recipe) getIntent().getSerializableExtra("Recipe");
+        category = getIntent().getStringExtra("category");
         set_all_recipe_info(recipe);
 //        Log.d("Dddd",""+recipe.getRecipeName());
         back_button.setOnClickListener(new  View.OnClickListener() {
@@ -111,6 +103,7 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
                 myIntent = new Intent(Activity_Edit_Recipe.this, Activity_Specific_Recipe.class);
                 myIntent.putExtra("Recipe",recipe);
                 myIntent.putExtra("tag",fragment_tag);
+                myIntent.putExtra("category",category);
                 startActivity(myIntent);
                 finish();
             }
@@ -119,14 +112,14 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("done","");
-//                uploadRecipe();
-                uploadImageToDB();
+                uploadRecipe();
             }
         });
         recipe_scpecific_Edit_IMG.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseImage();
+                uploadImageToDB();
             }
         });
     }
@@ -170,8 +163,7 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
     }
 
     private void uploadImageToDB() {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
+
         if (imageUri != null) {
             storageReference = FirebaseStorage.getInstance().getReference("recipesImages").child(System.currentTimeMillis()
                     + "." + mime.getExtensionFromMimeType(cR.getType(imageUri)));
@@ -185,7 +177,7 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     downloadUri = task.getResult();
                     uploadRecipe();
-                    fb_manager.uploadRecipeToUserWishList(recipe, mAuth);
+//                    fb_manager.uploadRecipeToUserWishList(recipe, mAuth);
                 }
             });
         }else{
@@ -212,7 +204,7 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
         }else {
             uri_string = recipe.getRecipeImage();
         }
-        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string ,isRecipeInwl, recipe.getTimeAndDate());
+        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string ,isRecipeInwl, recipe.getRecipeTimeAndDate(), mAuth.getCurrentUser().getUid());
     }
 
     private void uploadRecipe(){
@@ -229,6 +221,7 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
                     myIntent = new Intent(Activity_Edit_Recipe.this, Activity_Specific_Recipe.class);
                     myIntent.putExtra("Recipe",recipe);
                     myIntent.putExtra("tag",fragment_tag);
+                    myIntent.putExtra("category",category);
                     startActivity(myIntent);
                     finish();
                 }else{
@@ -240,42 +233,5 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
         });
 //        updateRecipesList();
     }
-
-
-//    public void checkWhichActivityToGo(){
-//        //TODO CHANGE TO SWITCH CASE
-//        switch (fragment_tag) {
-//            case "Fragment_MyRecipes":
-//                myIntent = new Intent(Activity_Edit_Recipe.this, Activity_MyRecipes.class);
-//                startActivity(myIntent);
-//                finish();
-//                break;
-//            case "Fragment_Categories":
-//                myIntent = new Intent(Activity_Edit_Recipe.this, Activity_Categories.class);
-//                startActivity(myIntent);
-//                finish();
-//                break;
-//            case "Fragment_wishList":
-//            case "Fragment_Recent_Recipes":
-//                myIntent = new Intent(Activity_Edit_Recipe.this, Activity_MyFeed.class);
-//                startActivity(myIntent);
-//                finish();
-//                break;
-//            case "Fragment_myWL":
-//                myIntent = new Intent(Activity_Edit_Recipe.this, Activity_MyWishList.class);
-//                startActivity(myIntent);
-//                finish();
-//                break;
-//        }
-//    }
-
-//    public void set_all_recipe_info(Recipe recipe){
-//        recipe_title_LBL.setText(recipe.getRecipeName());
-//        recipe_ingredients_LBL.setText(recipe.getRecipeIngredients());
-//        recipe_directions_LBL.setText(recipe.getRecipeDirections());
-//        recipe_prep_time.setText(recipe.getPreparationTime());
-//        recipe_category.setText(recipe.getCategory().toString());
-//        Glide.with(this).load(recipe.getRecipeImage()).apply(RequestOptions.centerInsideTransform()).into(recipe_scpecific_IMG);
-//    }
 }
 

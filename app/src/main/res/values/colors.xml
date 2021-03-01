@@ -38,6 +38,9 @@
     <color name="b_100">#00303f</color>
 
     //colors package 3
+    <color name="g_600">#B4C8AC</color>
+    <color name="g_700">#A7C19E</color>
+    <color name="g_750">#A2BC99</color>
     <color name="g_800">#7c9473</color>
     <color name="g_400">#cfdac8</color>
     <color name="gray_200">#e8eae6</color>

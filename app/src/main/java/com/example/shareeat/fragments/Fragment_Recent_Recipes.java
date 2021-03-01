@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shareeat.utils.Adapter_Recipes;
 import com.example.shareeat.utils.FB_Manager;
 import com.example.shareeat.R;
@@ -26,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 public class Fragment_Recent_Recipes extends Fragment {
     private RecyclerView myRecipes_RECY_LAY;
     private FirebaseAuth mAuth;
@@ -33,7 +33,6 @@ public class Fragment_Recent_Recipes extends Fragment {
     private List<Recipe> recipes_WishList = new ArrayList<>();
     private List<Recipe> all_recipes_WishList = new ArrayList<>();
     private View view;
-//    private Fragment_Recipe fragment_recipe;
     private Recipe.RecipeCategory recipeCategory;
     private Recipe recipe;
     private ImageButton save_to_WL_BTN_myRecipes;
@@ -45,7 +44,6 @@ public class Fragment_Recent_Recipes extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my_recipes , container,false);
         mAuth = FirebaseAuth.getInstance();
-//        fragment_recipe = new Fragment_Recipe();
         findViews(view);
         initViews();
         return view;
@@ -53,7 +51,6 @@ public class Fragment_Recent_Recipes extends Fragment {
 
     private void findViews(View view) {
         myRecipes_RECY_LAY = view.findViewById(R.id.myRecipes_RECY_LAY);
-//        save_to_WL_BTN_myRecipes = view.findViewById(R.id.save_to_WL_BTN_myRecipes);
     }
 
     private void initViews() {
@@ -92,6 +89,11 @@ public class Fragment_Recent_Recipes extends Fragment {
                             // document.
                             for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
                                 recipe = ds.toObject(Recipe.class);
+//                                if(!useruID.equals(mAuth.getCurrentUser().getUid())){
+//                                checkIfIsInMuWishList(recipe);
+//                                    recipe.setInWishList(false);
+//                                }
+                                Log.d("recipeRecenttttttt", " "+ recipe.isInWishList());
                                 recipes.add(recipe);
                                 Collections.sort(recipes,Recipe.RecipeComperator);
                                 if(recipes.size() > 10) {
@@ -106,6 +108,7 @@ public class Fragment_Recent_Recipes extends Fragment {
 
                                     @Override
                                     public void onItemClick(View view, int position) {
+                                        adapter_recipe.updateOneItem(position);
                                         Log.d("position:", "onCLICK: " + recipes.get(position).getRecipeName());
                                         Intent myIntent = new Intent(getActivity(), Activity_Specific_Recipe.class);
                                         myIntent.putExtra("Recipe",recipes.get(position));
@@ -115,8 +118,8 @@ public class Fragment_Recent_Recipes extends Fragment {
                                     }
 
                                     @Override
-                                    public void onAddToWishListClicked(View view, Recipe recipe) {
-                                        fb_manager.setOnAddToWishList(view, recipe, mAuth,getContext());
+                                    public void onAddToWishListClicked(View view, Recipe recipe, int position) {
+                                        fb_manager.setOnAddToWishList(view, recipe, mAuth, getContext());
                                         getActivity().finish();
                                         startActivity(getActivity().getIntent());
                                     }

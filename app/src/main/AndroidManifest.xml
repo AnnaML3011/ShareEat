@@ -30,7 +30,7 @@
         <activity android:name=".activities.Activity_Specific_Recipe" />
         <activity android:name=".activities.Activity_MyWishList" />
         <activity android:name=".activities.Activity_Edit_Recipe" />
-
+        <activity android:name=".activities.Activity_All_Category_Recipes" />
 
 
 

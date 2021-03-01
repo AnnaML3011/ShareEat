@@ -34,8 +34,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Categories"
-                android:textSize="40dp"
+                android:text="All Category Recipes"
+                android:textSize="30dp"
                 android:textStyle="bold"
                 android:textColor="@color/g_700"
                 android:fontFamily="@font/sofia_regular"
@@ -50,14 +50,14 @@
             android:layout_weight="2"
             android:background="@color/white"/>
 
-<!--            <Button-->
-<!--            android:id="@+id/upload_recipe_BTN"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/button"-->
-<!--            android:text="+"-->
-<!--            android:layout_marginTop="12dp"-->
-<!--            android:layout_gravity="center_horizontal" />-->
+        <!--            <Button-->
+        <!--            android:id="@+id/upload_recipe_BTN"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="@drawable/button"-->
+        <!--            android:text="+"-->
+        <!--            android:layout_marginTop="12dp"-->
+        <!--            android:layout_gravity="center_horizontal" />-->
 
     </LinearLayout>
 

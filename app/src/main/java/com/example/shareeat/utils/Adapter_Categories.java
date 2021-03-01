@@ -1,5 +1,4 @@
 package com.example.shareeat.utils;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.shareeat.objects.Category;
 import com.example.shareeat.R;
-
 import java.util.List;
+
+
 
 public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.MyViewHolder>{
     private List<Category> categories;
@@ -66,14 +66,11 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
 
     // stores and recycles views as they are scrolled off screen
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
         ImageView catrgory_image_IMG;
         TextView category_title_LBL;
-//        AppManager appManager = new AppManager();
 
         MyViewHolder(View itemView) {
             super(itemView);
-//            appManager.findViewsAdpterRecipe(itemView);
             catrgory_image_IMG = itemView.findViewById(R.id.catrgory_image_IMG);
             category_title_LBL = itemView.findViewById(R.id.category_title_LBL);
 

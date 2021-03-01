@@ -1,8 +1,6 @@
 package com.example.shareeat.activities;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,23 +9,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.shareeat.utils.AppManager;
 import com.example.shareeat.R;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApi;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+
 public class Activity_Main extends AppCompatActivity implements View.OnClickListener {
+    private static final String A_TAG = "A_tag";
     private AppManager appManager;
     private Button login_BTN;
     private Button signup_manualy_BTN;
@@ -57,7 +53,6 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
         switch(v.getId()){
             case R.id.login_BTN:
                 loginUser();
-//                startActivity(new Intent(Activity_Main.this, Activity_MyFeed.class));
                 break;
             case R.id.signup_manualy_BTN:
                 startActivity(new Intent(Activity_Main.this,Activity_SignUp.class));
@@ -65,11 +60,10 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
             case R.id.google_BTN_signup:
                 googleSignIn();
                 firebaseAuthWithGoogle(mAuth.getCurrentUser().getIdToken(true).toString());
-//                startActivity(new Intent(Activity_Main.this, Activity_SignUp.class));
                 break;
         }
     }
-
+    //TODO -implement google signin
     private void googleSignIn(){
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -94,8 +88,6 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
                             Log.w("ptt", "signInWithCredential:failure", task.getException());
 //                            updateUI(null);
                         }
-
-                        // ...
                     }
                 });
     }
@@ -138,6 +130,7 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
                             // If user exist , we read his data from DB
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(getApplicationContext(), Activity_MyFeed.class);
+                            intent.putExtra(A_TAG,"Activity_Main");
                             startActivity(intent);
 //                            readUserFromDB(user.getUid());
                        } else {
@@ -169,30 +162,4 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
             }
         });
     }
-
-
-    // Read user data from DB
-//    void readUserFromDB(final String userID) {
-//        DocumentReference reference = FirebaseFirestore.getInstance().collection("Users/").document(userID);
-//
-//        reference.addSnapshotListener(new EventListener() {
-//            @Override
-//            public void onEvent(@Nullable Object value, @Nullable FirebaseFirestoreException error) {
-//
-//            }
-//
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                User user = snapshot.getValue(User.class);
-//                Intent intent = new Intent(getApplicationContext(), Activity_MyFeed.class);
-//                intent.putExtra("userInfo", String.valueOf(user));
-//                startActivity(intent);
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-
 }

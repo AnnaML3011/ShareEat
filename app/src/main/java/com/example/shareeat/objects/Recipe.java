@@ -15,20 +15,24 @@ public class Recipe implements Serializable,Comparable<Recipe> {
     RecipeCategory category;
     String recipeImage;
     boolean isInWishList;
-    long recipeTimeAndDate;
+    Date recipeTimeAndDate;
+    String userUid;
+
+
 
     public Recipe(){
     }
 
-    public Recipe(String recipeName,String recipeIngrediants, String recipeDirections, String preparationTime, RecipeCategory category, String recipeImage, boolean isInWishList, long recipeTimeAndDate) {
+    public Recipe(String recipeName, String recipeIngredients, String recipeDirections, String preparationTime, RecipeCategory category, String recipeImage, boolean isInWishList, Date recipeTimeAndDate, String userUid) {
         this.recipeName = recipeName;
-        this.recipeIngredients = recipeIngrediants;
+        this.recipeIngredients = recipeIngredients;
         this.recipeDirections = recipeDirections;
         this.preparationTime = preparationTime;
         this.category = category;
         this.recipeImage = recipeImage;
         this.isInWishList = isInWishList;
         this.recipeTimeAndDate = recipeTimeAndDate;
+        this.userUid = userUid;
     }
 
     public String getRecipeName() {
@@ -87,32 +91,45 @@ public class Recipe implements Serializable,Comparable<Recipe> {
         isInWishList = inWishList;
     }
 
-    public long getTimeAndDate() {
+    public Date getRecipeTimeAndDate() {
         return recipeTimeAndDate;
     }
 
-    public void setTimeAndDate(long recipeTimeAndDate) {
-        this.recipeTimeAndDate = System.currentTimeMillis();
+    public void setRecipeTimeAndDate(Date recipeTimeAndDate) {
+        this.recipeTimeAndDate = recipeTimeAndDate;
+    }
+
+    public String getUserUid() {
+        return userUid;
+    }
+
+    public void setUserUid(String userUid) {
+        this.userUid = userUid;
     }
 
     @Override
     public int compareTo(Recipe o) {
         Date date11;
         Date date22;
-        if (o instanceof Recipe) {
-            Recipe r = (Recipe) o;
+//        if(this.getRecipeTimeAndDate() != null && o.getRecipeTimeAndDate()!= null) {
+        try {
+            if (o instanceof Recipe) {
+                Recipe r = (Recipe) o;
 //            SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
 //            Date date1 = new Date(this.getTimeAndDate());
 //            Date date2 = new Date(o.getTimeAndDate());
 //            String sDate1 = formatter.format(date1);
 //            String sDate2 = formatter.format(date2);
-            Log.d("compare" , ""+this.getTimeAndDate()+"/"+o.getTimeAndDate()+"//");
-            return (int) (this.getTimeAndDate() - o.getTimeAndDate());
-        } else {
-            throw new RuntimeException( "Not comparable object");
+                Log.d("compare", "" + this.getRecipeTimeAndDate() + "/" + o.getRecipeTimeAndDate() + "//");
+                return this.getRecipeTimeAndDate().compareTo(r.getRecipeTimeAndDate());
+            } else {
+                throw new RuntimeException("Not comparable object");
+            }
+        } catch(Exception e){
         }
-
+        return 0;
     }
+
     public static Comparator<Recipe> RecipeComperator = new Comparator<Recipe>() {
         @Override
         public int compare(Recipe o1, Recipe o2) {

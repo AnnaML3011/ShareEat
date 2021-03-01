@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -40,20 +41,7 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
     private static final String F_WHICH_ACTIVITY = "F_WHICH_ACTIVITY";
     private static final int REQUEST_CODE = 1;
     private AppManager appManager;
-    //layouts
-    private Button doneUpload_BTN;
-    private ImageButton backto_myFeed_BTN;
-    private ImageView recipe_upload_IMG;
-    private EditText recipe_Name_LBL;
-    private Spinner recipe_category_LBL;
-    EditText recipe_ingredients_UPLD_LBL;
-    EditText recipe_directions_UPLD_LBL;
-    private EditText preparation_Time_LBL;
     private String recipeName;
-    private Recipe.RecipeCategory recipeCategory;
-    private String recipeIng;
-    private String recipeDir;
-    private String recipePreTime;
     private FirebaseAuth mAuth;
     private Recipe recipe;
     private User user;
@@ -61,12 +49,18 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
     private Map<String, Object> userRecipes;
     private Uri imageUri;
     private Uri downloadUri;
-    private String uri_string;
     private StorageReference storageReference;
     private String which_Activity;
-    private boolean isInWL;
-    private String userName;
-    private String userEmail;
+    //layouts
+    private Button doneUpload_BTN;
+    private ImageButton backto_myFeed_BTN;
+    private ImageView recipe_upload_IMG;
+    private EditText recipe_Name_LBL;
+    private Spinner recipe_category_LBL;
+    private EditText recipe_ingredients_UPLD_LBL;
+    private EditText recipe_directions_UPLD_LBL;
+    private EditText preparation_Time_LBL;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,8 +90,8 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
         recipe_upload_IMG.setOnClickListener(this);
         doneUpload_BTN.setOnClickListener(this);
         backto_myFeed_BTN.setOnClickListener(this);
-        userEmail = getIntent().getStringExtra("email");
-        userName = getIntent().getStringExtra("userName");
+        String userEmail = getIntent().getStringExtra("email");
+        String userName = getIntent().getStringExtra("userName");
     }
 
     @Override
@@ -217,16 +211,15 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
     }
 
     private void addSpecificRecipe(){
-        isInWL = false;
         recipeName = recipe_Name_LBL.getText().toString();
-        recipeIng = recipe_ingredients_UPLD_LBL.getText().toString();
-        recipeDir = recipe_directions_UPLD_LBL.getText().toString();
-        recipePreTime = preparation_Time_LBL.getText().toString();
+        String recipeIng = recipe_ingredients_UPLD_LBL.getText().toString();
+        String recipeDir = recipe_directions_UPLD_LBL.getText().toString();
+        String recipePreTime = preparation_Time_LBL.getText().toString();
         String category = recipe_category_LBL.getSelectedItem().toString();
-        recipeCategory = Recipe.RecipeCategory.valueOf(category);
+        Recipe.RecipeCategory recipeCategory = Recipe.RecipeCategory.valueOf(category);
         imageUri = downloadUri;
-        uri_string = imageUri.toString();
-        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string ,isInWL, System.currentTimeMillis());
+        String uri_string = imageUri.toString();
+        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string, false, new Date(System.currentTimeMillis()), mAuth.getCurrentUser().getUid());
         recipes.add(recipe);
         user.addRecipe(recipes);
         updateUserRecipes();

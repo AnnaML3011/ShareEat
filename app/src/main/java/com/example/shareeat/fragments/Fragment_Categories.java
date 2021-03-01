@@ -5,27 +5,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.example.shareeat.activities.Activity_All_Category_Recipes;
 import com.example.shareeat.utils.Adapter_Categories;
-import com.example.shareeat.utils.Adapter_Recipes;
 import com.example.shareeat.objects.Category;
 import com.example.shareeat.utils.FB_Manager;
 import com.example.shareeat.R;
 import com.example.shareeat.objects.Recipe;
-import com.example.shareeat.activities.Activity_Specific_Recipe;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Fragment_Categories extends Fragment {
     private RecyclerView categories_LST_names;
@@ -50,8 +43,6 @@ public class Fragment_Categories extends Fragment {
         return view;
     }
 
-
-
     private void findViews(View view) {
         categories_LST_names = view.findViewById(R.id.categories_LST_names);
     }
@@ -63,84 +54,21 @@ public class Fragment_Categories extends Fragment {
         adapter_categories.setClickListener(new Adapter_Categories.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.d("categgories", " "+categories.get(position).getCategory_Name());
-                ////////////
-//                getRecipesByCategoryFromDB(categories.get(position).getCategory_Name(),"");
-//                Bundle bundle = new Bundle();
-//                bundle.putString("Category", categories.get(position).getCategory_Name());
+                Log.d("categgories", " "+ categories.get(position).getCategory_Name());
+                Intent myIntent = new Intent(getActivity(), Activity_All_Category_Recipes.class);
+                myIntent.putExtra("category", categories.get(position).getCategory_Name());
+                myIntent.putExtra("tag","Fragment_Categories");
+                startActivity(myIntent);
+                getActivity().finish();
 //                getActivity().getSupportFragmentManager().beginTransaction()
 //                .replace(((ViewGroup)getView().getParent()).getId(), fragment_all_category_recipes, "findThisFragment")
 //                .commit();
-//                bundle.putString("tag","Fragment_MyRecipes");
-                getUsers(categories.get(position).getCategory_Name());
+//                fragment_all_category_recipes.refresh(categories.get(position).getCategory_Name());
+//                getUsers(categories.get(position).getCategory_Name());
             }
         });
 
     }
-
-    private void getUsers(String categoryName){
-        FirebaseFirestore.getInstance().collection("Users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot documentSnapshots) {
-                if(documentSnapshots.isEmpty()){
-                    Log.d("empty", "onSuccess: USERS LIST EMPTY");
-                }else{
-                    for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
-                        String uID = ds.getId();
-                        getRecipesByCategoryFromDB(categoryName, uID);
-
-                    }
-                }
-            }
-        });
-    }
-
-    private void  getRecipesByCategoryFromDB(String categoryName, String useruID ) {
-        FirebaseFirestore.getInstance().collection("Users").document(useruID).
-                collection("userRecipes").whereEqualTo("category",categoryName).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-                        if (documentSnapshots.isEmpty()) {
-                            Log.d("empty", "onSuccess: LIST EMPTY");
-                            return;
-                        } else {
-                            // Convert the whole Query Snapshot to a list
-                            // of objects directly! No need to fetch each
-                            // document.
-                            for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
-                                Recipe recipe = ds.toObject(Recipe.class);
-                                all_category_recipes.add(recipe);
-//                                Log.d("recipe:" , ""+recipe.getRecipeName() );
-                                Adapter_Recipes adapter_recipe = new Adapter_Recipes(getContext(), all_category_recipes);
-                                categories_LST_names.setAdapter(adapter_recipe);
-                                adapter_recipe.setClickListener(new Adapter_Recipes.MyItemClickListener() {
-                                    @Override
-                                    public void onItemClick(View view, int position) {
-                                        Log.d("position:", "onCLICK: " + position);
-                                        showSpecificRecipe(all_category_recipes.get(position));
-                                    }
-
-                                    @Override
-                                    public void onAddToWishListClicked(View view, Recipe recipe) {
-                                        fb_manager.setOnAddToWishList(view, recipe, mAuth, getContext());
-                                    }
-                                });
-                            }
-                            Log.d("recipes:", "onSuccess: " + all_category_recipes);
-                        }
-                    }
-                });
-    }
-
-    private void showSpecificRecipe(Recipe recipe) {
-        Intent myIntent = new Intent(getActivity(), Activity_Specific_Recipe.class);
-        myIntent.putExtra("Recipe",recipe);
-        myIntent.putExtra("tag","Fragment_Categories");
-        startActivity(myIntent);
-        getActivity().finish();
-    }
-
 
     public static ArrayList<Category> generateCategories() {
         ArrayList<Category> categories = new ArrayList<>();

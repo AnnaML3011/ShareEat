@@ -46,6 +46,8 @@ private View view;
         Log.d("iswishlist", "" + r.isInWishList());
         if(r.isInWishList() == true){
             Glide.with(view).load(R.drawable.ic_heart_filled_pink).apply(RequestOptions.circleCropTransform()).into(holder.save_to_WL_BTN_myRecipes);
+        }else{
+            Glide.with(view).load(R.drawable.ic_heart_empty).apply(RequestOptions.circleCropTransform()).into(holder.save_to_WL_BTN_myRecipes);
         }
         Glide
                 .with(mInflater.getContext())
@@ -57,7 +59,7 @@ private View view;
                 @Override
                 public void onClick(View v) {
                     if (mClickListener != null) {
-                        mClickListener.onAddToWishListClicked(v, r);
+                        mClickListener.onAddToWishListClicked(v, r, position);
 
                     }
                 }
@@ -81,7 +83,7 @@ private View view;
     // parent activity will implement this method to respond to click events
     public interface MyItemClickListener {
         void onItemClick(View view, int position);
-        void onAddToWishListClicked(View view, Recipe recipe);
+        void onAddToWishListClicked(View view, Recipe recipe, int position);
     }
 
     public void updateOneItem(int position){
@@ -95,12 +97,10 @@ private View view;
         TextView category_RECIPE_LBL;
         TextView prep_TIME_LBL;
         TextView description__RECIPE_LBL;
-        MaterialButton main_BTN_readMore;
         ImageView save_to_WL_BTN_myRecipes;
 
         MyViewHolder(View itemView) {
             super(itemView);
-//            appManager.findViewsAdpterRecipe(itemView);
             recipe_img_IMG = itemView.findViewById(R.id.recipe_img_IMG);
             name_RECIPE_LBL = itemView.findViewById(R.id.name_RECIPE_LBL);
             category_RECIPE_LBL = itemView.findViewById(R.id.category_RECIPE_LBL);

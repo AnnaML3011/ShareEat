@@ -33,7 +33,7 @@
                     android:text="ShareEat"
                     android:textSize="70dp"
                     android:textStyle="bold"
-                    android:textColor="@color/gray_150"
+                    android:textColor="@color/g_700"
                     android:fontFamily="@font/sofia_regular"
                     android:gravity="center_horizontal"/>
 
