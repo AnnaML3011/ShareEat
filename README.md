@@ -32,7 +32,7 @@ I used Firebase services such as:
 At the first time, you should create an account and fill your details. \
 Then, after creating the account you will enter the main page. \
 At this page you can find recent recipes, your wish list which is empty at the beginning, \
-an option to upload your profile image, and upload a new recipe. 
+an option to upload your profile image, and option to upload a new recipe. 
 
 ![ezgif com-gif-maker (5)](https://user-images.githubusercontent.com/68688761/109725670-2633e200-7bba-11eb-992a-bc94aa6b4e50.gif)
 
