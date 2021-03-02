@@ -29,8 +29,9 @@ I used Firebase services such as:
 * Storage
 
 ## How it works
-At the first time, The user should create an account and fill his details.
-![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/68688761/109724759-b83aeb00-7bb8-11eb-84e1-d8609d8ef76a.gif)
+At the first time, The user should create an account and fill his details.\
+![ezgif com-gif-maker (5)](https://user-images.githubusercontent.com/68688761/109725670-2633e200-7bba-11eb-992a-bc94aa6b4e50.gif)
+
 
 Then, after creating the account you will enter the main page.\
 At this page you can find recent recipes, your wish list, an option to upload a recipe.\
