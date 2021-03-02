@@ -12,7 +12,7 @@
 
 ## Table of contents
 * [Description](#description)
-* [How to use](#How-to-use)
+* [How it works](#How-it-works)
 * [Technologies](#technologies)
 * [Compatibility](#compatibility)
 * [Future scope](#future-scope)
@@ -27,3 +27,6 @@ I used Firebase services such as:
 * Authentication
 * Cloud Firestore
 * Storage
+
+## How it works
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/68688761/109723361-a9ebcf80-7bb6-11eb-9dd9-095a7a0e1c54.gif)
