@@ -39,6 +39,8 @@ an option to upload your profile image, and upload a new recipe.
 To upload a new recipe you need to click the plus button at the bottom. \
 Choose recipe category, fill the recipe details, put an image of the recipe and upload your recipe. 
 
+![ezgif com-gif-maker (7)](https://user-images.githubusercontent.com/68688761/109730267-e96be900-7bc1-11eb-93b2-39ab3ecc56c3.gif)
+
 
 You can also edit your recipes by clicking the pen at the right side of the recipe. 
 
