@@ -44,8 +44,7 @@ Choose recipe category, fill the recipe details, put an image of the recipe and 
 
 You can also edit your recipes by clicking the pen at the right side of the recipe. 
 
-
-
+![ezgif com-gif-maker (9)](https://user-images.githubusercontent.com/68688761/109731155-6ba8dd00-7bc3-11eb-9d92-f07cb48c100f.gif)
 
 Also you have At the menu button option to see your recipes which you uploaded, recipes that you like, \
 and see all the recipes of all the users arranged in categories. 
