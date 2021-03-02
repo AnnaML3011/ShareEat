@@ -29,4 +29,5 @@ I used Firebase services such as:
 * Storage
 
 ## How it works
-![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/68688761/109724317-16b39980-7bb8-11eb-9a76-34ab0d65dc6b.gif)
+
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/68688761/109724566-76aa4000-7bb8-11eb-86b0-423f9426479b.gif)
