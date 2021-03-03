@@ -5,6 +5,9 @@
 <img src="https://img.shields.io/badge/App-ShareEat-pink">
 </p>
 
+![Capture - Copy](https://user-images.githubusercontent.com/68688761/109796623-0b488880-7c21-11eb-9130-5fed9b8751ba.PNG)
+
+
 ![Capture](https://user-images.githubusercontent.com/68688761/109717211-69885380-7bae-11eb-9936-2455eb072958.PNG)
 
 
