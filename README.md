@@ -1,12 +1,14 @@
 
 <h1 align="center"> ShareEat</h1>
 
-
-![Capture](https://user-images.githubusercontent.com/68688761/109717211-69885380-7bae-11eb-9936-2455eb072958.PNG)
-
+<p align="center">
 <img src="https://img.shields.io/badge/made%20by-AnnaML3011-pink">
 <img src="https://img.shields.io/badge/Java-100%25-pink">
 <img src="https://img.shields.io/badge/android%20studio-4.2-pink">
+</p>
+
+![Capture](https://user-images.githubusercontent.com/68688761/109717211-69885380-7bae-11eb-9936-2455eb072958.PNG)
+
 
 
 ## Table of contents
