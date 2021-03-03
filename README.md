@@ -1,6 +1,10 @@
 
 <h1 align="center"> ShareEat</h1>
 
+<p align="center">
+<img src="https://img.shields.io/badge/App-ShareEat-pink">
+</p>
+
 ![Capture](https://user-images.githubusercontent.com/68688761/109717211-69885380-7bae-11eb-9936-2455eb072958.PNG)
 
 
