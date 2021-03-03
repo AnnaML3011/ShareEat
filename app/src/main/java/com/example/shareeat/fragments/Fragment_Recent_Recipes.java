@@ -33,8 +33,6 @@ public class Fragment_Recent_Recipes extends Fragment {
     private RecyclerView myRecipes_RECY_LAY;
     private FirebaseAuth mAuth;
     private List<Recipe> recipes = new ArrayList<>();
-    private List<Recipe> recipes_WishList = new ArrayList<>();
-    private List<Recipe> all_recipes_WishList = new ArrayList<>();
     private View view;
     private Recipe recipe;
     boolean isInWL = false;

@@ -26,8 +26,6 @@ public class Fragment_Categories extends Fragment {
     private RecyclerView categories_LST_names;
     private FirebaseAuth mAuth;
     private List<Category> categories = new ArrayList<>();
-    private List<Recipe> all_category_recipes = new ArrayList<>();
-    private List<Recipe> all_category_recipes_wish_list = new ArrayList<>();
     private boolean isInWL;
     private Fragment_All_Category_Recipes fragment_all_category_recipes;
     private FB_Manager fb_manager = new FB_Manager();

@@ -29,8 +29,6 @@ public class Fragment_MyRecipes extends Fragment {
     private RecyclerView myRecipes_RECY_LAY;
     private FirebaseAuth mAuth;
     private List<Recipe> recipes = new ArrayList<>();
-    private List<Recipe> recipes_WishList = new ArrayList<>();
-    private List<Recipe> all_recipes_WishList = new ArrayList<>();
     private Adapter_Recipes adapter_recipe;
     private View view;
     private Recipe recipe;
@@ -69,6 +67,7 @@ public class Fragment_MyRecipes extends Fragment {
                             for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
                                 recipe = ds.toObject(Recipe.class);
                                 if(recipe.getUserUid().equals(mAuth.getCurrentUser().getUid())) {
+                                    recipe.setInWishList(false);
                                     getRecipesFromMyWishList(recipe);
                                     recipes.add(recipe);
                                 }

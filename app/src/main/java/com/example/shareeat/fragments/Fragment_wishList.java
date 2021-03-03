@@ -33,7 +33,6 @@ public class Fragment_wishList extends Fragment {
     private static final String TAG = "tag";
     private RecyclerView wishList_RECY_LAY;
     private RecyclerView myRecipes_RECY_LAY;
-    List<Recipe> recipes = new ArrayList<>();
     private Recipe recipe = new Recipe();
     private List<Recipe> recipes_WishList ;
     private FirebaseAuth mAuth;

@@ -32,9 +32,7 @@ public class Fragment_All_Category_Recipes extends Fragment {
     private static final String TAG = "tag";
     private RecyclerView categories_LST_names;
     private FirebaseAuth mAuth;
-    private List<Category> categories = new ArrayList<>();
     private List<Recipe> all_category_recipes = new ArrayList<>();
-    private List<Recipe> all_category_recipes_wish_list = new ArrayList<>();
     private boolean isInWL;
     private FB_Manager fb_manager = new FB_Manager();
     private View view;

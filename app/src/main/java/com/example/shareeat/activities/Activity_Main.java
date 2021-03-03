@@ -17,6 +17,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Timer;
+
 
 public class Activity_Main extends AppCompatActivity implements View.OnClickListener {
     private static final String A_TAG = "A_tag";
@@ -123,4 +125,25 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
 }
+
