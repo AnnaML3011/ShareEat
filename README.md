@@ -1,5 +1,5 @@
 
-#ShareEat
+# ShareEat
 
 <img src="https://img.shields.io/badge/App-ShareEat-pink">
 
