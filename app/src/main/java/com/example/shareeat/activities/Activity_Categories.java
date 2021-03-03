@@ -2,13 +2,12 @@ package com.example.shareeat.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import com.example.shareeat.utils.AppManager;
 import com.example.shareeat.fragments.Fragment_Categories;
 import com.example.shareeat.R;
+
 
 public class Activity_Categories extends AppCompatActivity  {
     private ImageButton backto_myFeed_BTN;

@@ -13,7 +13,6 @@ public class Activity_MyWishList extends AppCompatActivity {
     private AppManager appManager;
     Fragment_wishList fragment_wishList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.my_wish_list_screen);

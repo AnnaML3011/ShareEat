@@ -45,7 +45,6 @@ public class FB_Manager {
     public void addSpecificRecipe(String recipeName, String recipeIng, String recipeDir, String recipePreTime, String category, String imageUri, boolean isInWishList, FirebaseAuth mAuth, String userId, Date date ){
         recipeCategory = Recipe.RecipeCategory.valueOf(category);
         recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, imageUri, isInWishList, date, userId);
-//        recipes_WishList.add(recipe);
         recipes_WishList.add(recipe);
         uploadRecipeToUserWishList(recipe, mAuth);
     }
@@ -60,7 +59,6 @@ public class FB_Manager {
                     Toast.makeText(context,"Recipe has deleted successfully from Wishlist!",
                             Toast.LENGTH_LONG).show();
                     updateUserRecipesAfterRemoveFromWL(recipe.getRecipeName(), recipe, mAuth);
-                    //TODO add progress bar
                 }else{
                     Toast.makeText(context,"Failed to delete recipe from Wishlist! Try again!",
                             Toast.LENGTH_LONG).show();

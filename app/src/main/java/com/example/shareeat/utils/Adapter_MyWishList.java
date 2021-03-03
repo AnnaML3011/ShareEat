@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.shareeat.R;
 import com.example.shareeat.objects.Recipe;
-
 import java.util.List;
 
 public class Adapter_MyWishList extends RecyclerView.Adapter<Adapter_MyWishList.MyViewHolder>{
@@ -34,13 +32,11 @@ public class Adapter_MyWishList extends RecyclerView.Adapter<Adapter_MyWishList.
 
     @Override
     public void onBindViewHolder(@NonNull Adapter_MyWishList.MyViewHolder holder, int position) {
-        Log.d("pttt", "Position = " + position);
         Recipe r = recipes.get(position);
         holder.name_RECIPE_LBL.setText("" + r.getRecipeName());
         holder.category_RECIPE_LBL.setText("" + r.getCategory());
         holder.prep_TIME_LBL.setText(r.getPreparationTime());
         holder.description__RECIPE_LBL.setText(r.getRecipeIngredients());
-        Log.d("iswishlist", "" + r.isInWishList());
         Glide
                 .with(mInflater.getContext())
                 .load(r.getRecipeImage())

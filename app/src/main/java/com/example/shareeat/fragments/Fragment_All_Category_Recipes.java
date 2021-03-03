@@ -27,6 +27,9 @@ import java.util.Objects;
 
 
 public class Fragment_All_Category_Recipes extends Fragment {
+    private static final String CATEGORY = "category";
+    private static final String RECIPE = "Recipe";
+    private static final String TAG = "tag";
     private RecyclerView categories_LST_names;
     private FirebaseAuth mAuth;
     private List<Category> categories = new ArrayList<>();
@@ -52,22 +55,6 @@ public class Fragment_All_Category_Recipes extends Fragment {
         categories_LST_names = view.findViewById(R.id.categories_LST_names);
     }
 
-//    private void getUsers(String categoryName){
-//        FirebaseFirestore.getInstance().collection("Users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot documentSnapshots) {
-//                if(documentSnapshots.isEmpty()){
-//                    Log.d("empty", "onSuccess: USERS LIST EMPTY");
-//                }else{
-//                    for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
-//                        String uID = ds.getId();
-//                        getRecipesByCategoryFromDB(categoryName, uID);
-//
-//                    }
-//                }
-//            }
-//        });
-//    }
 
     private void  getRecipesByCategoryFromDB(String categoryName) {
         FirebaseFirestore.getInstance().collection("Recipes")
@@ -79,9 +66,6 @@ public class Fragment_All_Category_Recipes extends Fragment {
                             Log.d("empty", "onSuccess: LIST EMPTY");
                             return;
                         } else {
-                            // Convert the whole Query Snapshot to a list
-                            // of objects directly! No need to fetch each
-                            // document.
                             for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
                                 recipe = ds.toObject(Recipe.class);
                                 recipe.setInWishList(false);
@@ -103,9 +87,6 @@ public class Fragment_All_Category_Recipes extends Fragment {
                             addRecipesToListAndSetAdapter(r, categoryName);
                             return;
                         } else {
-                            // Convert the whole Query Snapshot to a list
-                            // of objects directly! No need to fetch each
-                            // document.
                             for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
                                 recipe = ds.toObject(Recipe.class);
                                 if(ds.getId().equals(r.getRecipeName()+"-"+r.getUserUid())){
@@ -129,7 +110,6 @@ public class Fragment_All_Category_Recipes extends Fragment {
                 adapter_recipe.updateOneItem(position);
                 showSpecificRecipe(all_category_recipes.get(position) ,categoryName);
             }
-
             @Override
             public void onAddToWishListClicked(View view, Recipe recipe, int position) {
                 isInWL = true;
@@ -140,9 +120,9 @@ public class Fragment_All_Category_Recipes extends Fragment {
 
     private void showSpecificRecipe(Recipe recipe , String categoryName) {
         Intent myIntent = new Intent(getActivity(), Activity_Specific_Recipe.class);
-        myIntent.putExtra("Recipe",recipe);
-        myIntent.putExtra("tag","Fragment_All_Category_Recipes");
-        myIntent.putExtra("category" , categoryName);
+        myIntent.putExtra(RECIPE,recipe);
+        myIntent.putExtra(TAG,"Fragment_All_Category_Recipes");
+        myIntent.putExtra(CATEGORY , categoryName);
         startActivity(myIntent);
         getActivity().finish();
     }

@@ -1,4 +1,3 @@
-
 package com.example.shareeat.utils;
 import android.content.Context;
 import android.util.Log;
@@ -34,10 +33,8 @@ public class Adapter_WishList extends RecyclerView.Adapter<Adapter_WishList.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull Adapter_WishList.MyViewHolder holder, int position) {
-        Log.d("pttt", "Position = " + position);
         Recipe c = recipes_WL.get(position);
         holder.recipe_title_WL_LBL.setText("" + c.getRecipeName());
-
         Glide
                 .with(mInflater.getContext())
                 .load(c.getRecipeImage())

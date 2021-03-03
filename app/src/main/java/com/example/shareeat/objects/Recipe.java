@@ -1,9 +1,5 @@
 package com.example.shareeat.objects;
-
-import android.util.Log;
-
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Date;
 
 public class Recipe implements Serializable {

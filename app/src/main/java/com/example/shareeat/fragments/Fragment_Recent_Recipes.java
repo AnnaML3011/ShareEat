@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,15 +28,15 @@ import java.util.Objects;
 
 
 public class Fragment_Recent_Recipes extends Fragment {
+    private static final String RECIPE = "Recipe";
+    private static final String TAG = "tag";
     private RecyclerView myRecipes_RECY_LAY;
     private FirebaseAuth mAuth;
     private List<Recipe> recipes = new ArrayList<>();
     private List<Recipe> recipes_WishList = new ArrayList<>();
     private List<Recipe> all_recipes_WishList = new ArrayList<>();
     private View view;
-    private Recipe.RecipeCategory recipeCategory;
     private Recipe recipe;
-    private ImageButton save_to_WL_BTN_myRecipes;
     boolean isInWL = false;
     private FB_Manager fb_manager = new FB_Manager();
 
@@ -60,22 +59,6 @@ public class Fragment_Recent_Recipes extends Fragment {
 
 
     }
-//    private void getUsers(){
-//        FirebaseFirestore.getInstance().collection("Users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot documentSnapshots) {
-//                if(documentSnapshots.isEmpty()){
-//                    Log.d("empty", "onSuccess: USERS LIST EMPTY");
-//                }else{
-//                    for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
-//                        String uID = ds.getId();
-//                        Log.d("uuID", "onSuccess: " + uID );
-//                        getRecipesFromDB(uID);
-//                    }
-//                }
-//            }
-//        });
-//    }
 
     private void  getRecipesFromDB() {
         FirebaseFirestore.getInstance().collection("Recipes").get()
@@ -93,40 +76,7 @@ public class Fragment_Recent_Recipes extends Fragment {
                                 recipe = ds.toObject(Recipe.class);
                                 recipe.setInWishList(false);
                                 getRecipesFromMyWishListAndCheck(recipe);
-//                                Log.d("recipeRecenttttttt", " "+ recipe.isInWishList());
-//                                recipes.add(recipe);
-//                                Collections.sort(recipes,Recipe.RecipeComperator);
-//                                if(recipes.size() > 10) {
-//                                    List<Recipe> ten_recent_recipes = recipes.subList(0, 10);
-//                                    recipes = ten_recent_recipes;
-//                                }
-//                                Log.d("recipe:" , ""+recipe.getRecipeName() );
-
-//                                Adapter_Recipes adapter_recipe = new Adapter_Recipes(getContext(), recipes);
-//                                myRecipes_RECY_LAY.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//                                myRecipes_RECY_LAY.setAdapter(adapter_recipe);
-//                                adapter_recipe.setClickListener(new Adapter_Recipes.MyItemClickListener() {
-//
-//                                    @Override
-//                                    public void onItemClick(View view, int position) {
-//                                        adapter_recipe.updateOneItem(position);
-//                                        Log.d("position:", "onCLICK: " + recipes.get(position).getRecipeName());
-//                                        Intent myIntent = new Intent(getActivity(), Activity_Specific_Recipe.class);
-//                                        myIntent.putExtra("Recipe",recipes.get(position));
-//                                        myIntent.putExtra("tag","Fragment_Recent_Recipes");
-//                                        startActivity(myIntent);
-//                                        getActivity().finish();
-//                                    }
-//
-//                                    @Override
-//                                    public void onAddToWishListClicked(View view, Recipe recipe, int position) {
-//                                        fb_manager.setOnAddToWishList(view, recipe, mAuth, getContext());
-//                                        getActivity().finish();
-//                                        startActivity(getActivity().getIntent());
-//                                    }
-//                                });
                             }
-                            Log.d("recipes:", "onSuccess: " + recipes);
                         }
                     }
                 });
@@ -145,9 +95,6 @@ public class Fragment_Recent_Recipes extends Fragment {
                             addRecipesToListAndSetAdapter(r);
                             return;
                         } else {
-                            // Convert the whole Query Snapshot to a list
-                            // of objects directly! No need to fetch each
-                            // document.
                             for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
                                 recipe = ds.toObject(Recipe.class);
                                 if(ds.getId().equals(r.getRecipeName()+"-"+r.getUserUid())){
@@ -180,10 +127,9 @@ public class Fragment_Recent_Recipes extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 adapter_recipe.updateOneItem(position);
-                Log.d("position:", "onCLICK: " + recipes.get(position).getRecipeName());
                 Intent myIntent = new Intent(getActivity(), Activity_Specific_Recipe.class);
-                myIntent.putExtra("Recipe",recipes.get(position));
-                myIntent.putExtra("tag","Fragment_Recent_Recipes");
+                myIntent.putExtra(RECIPE,recipes.get(position));
+                myIntent.putExtra(TAG,"Fragment_Recent_Recipes");
                 startActivity(myIntent);
                 getActivity().finish();
             }
