@@ -13,10 +13,7 @@
 * [Description](#description)
 * [How it works](#How-it-works)
 * [Technologies](#technologies)
-* [Compatibility](#compatibility)
 * [Future scope](#future-scope)
-* [Meta](#meta)
-
 
 ## Description
 ShareEat is a recipe sharing app where people can share their recipes and ideas. \
@@ -51,5 +48,17 @@ and see all the recipes of all the users arranged in categories.
 ![ezgif com-gif-maker (10)](https://user-images.githubusercontent.com/68688761/109734533-d5c48080-7bc9-11eb-9fb7-d5b448e8fb00.gif)
 
 You can add and remove recipes to/from your Wish List by clicking on 'heart' sign. 
+
+![ezgif com-gif-maker (11)](https://user-images.githubusercontent.com/68688761/109736018-67cd8880-7bcc-11eb-9239-8711340f5bfb.gif)
+
+## Technologies
+<b>Project is created with:</b>
+* Java
+* Firebase version: 26.4.0
+
+## Future scope
+- add search option
+- user rating
+- add missing ingredients to shopping cart
 
 
