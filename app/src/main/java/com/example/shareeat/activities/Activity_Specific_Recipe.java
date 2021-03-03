@@ -10,26 +10,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.shareeat.utils.AppManager;
-import com.example.shareeat.fragments.Fragment_MyRecipes;
 import com.example.shareeat.R;
 import com.example.shareeat.objects.Recipe;
 
 
 public class Activity_Specific_Recipe extends AppCompatActivity {
+    private static final String RECIPE = "Recipe";
+    private static final String CATEGORY = "category";
+    private static final String TAG = "tag";
+    private static final String ISINWL = "isInWL";
+    private Recipe recipe = new Recipe();
+    private AppManager appManager;
+    private Intent myIntent;
     private ImageButton back_button;
     private Button done_With_Recipe_BTN;
-    private Fragment_MyRecipes fragment_myRecipes;
-    private AppManager appManager;
     private TextView recipe_title_LBL;
     private TextView recipe_ingredients_LBL;
     private TextView recipe_directions_LBL;
     private TextView recipe_prep_time;
     private TextView recipe_category;
     private ImageView recipe_scpecific_IMG;
-    private Recipe recipe = new Recipe();
-    private String fragment_tag;
-    private Intent myIntent;
     private ImageView edit_BTN;
+    private String fragment_tag;
     private String category;
 
 
@@ -39,7 +41,6 @@ public class Activity_Specific_Recipe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         appManager = new AppManager(this);
         appManager.findViewsMyRecipes(this);
-        fragment_myRecipes = new Fragment_MyRecipes();
         findViews();
         initViews();
     }
@@ -57,9 +58,9 @@ public class Activity_Specific_Recipe extends AppCompatActivity {
     }
 
     private void initViews() {
-        recipe = (Recipe) getIntent().getSerializableExtra("Recipe");
-        fragment_tag = getIntent().getStringExtra("tag");
-        category = getIntent().getStringExtra("category");
+        recipe = (Recipe) getIntent().getSerializableExtra(RECIPE);
+        fragment_tag = getIntent().getStringExtra(TAG);
+        category = getIntent().getStringExtra(CATEGORY);
         set_all_recipe_info(recipe);
         back_button.setOnClickListener(new  View.OnClickListener() {
             @Override
@@ -77,10 +78,10 @@ public class Activity_Specific_Recipe extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_Edit_Recipe.class);
-                myIntent.putExtra("isInWL", recipe.isInWishList());
-                myIntent.putExtra("Recipe",recipe);
-                myIntent.putExtra("tag",fragment_tag);
-                myIntent.putExtra("category",category);
+                myIntent.putExtra(ISINWL, recipe.isInWishList());
+                myIntent.putExtra(RECIPE,recipe);
+                myIntent.putExtra(TAG,fragment_tag);
+                myIntent.putExtra(CATEGORY,category);
                 startActivity(myIntent);
                 finish();
             }
@@ -88,42 +89,38 @@ public class Activity_Specific_Recipe extends AppCompatActivity {
     }
 
     public void checkWhichActivityToGo(){
-        //TODO CHANGE TO SWITCH CASE
         switch (fragment_tag) {
             case "Fragment_MyRecipes":
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_MyRecipes.class);
-                myIntent.putExtra("Recipe",recipe);
+                myIntent.putExtra(RECIPE,recipe);
                 startActivity(myIntent);
                 finish();
                 break;
             case "Fragment_Categories":
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_Categories.class);
-                myIntent.putExtra("Recipe",recipe);
+                myIntent.putExtra(RECIPE,recipe);
                 startActivity(myIntent);
                 finish();
                 break;
             case "Fragment_wishList":
             case "Fragment_Recent_Recipes":
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_MyFeed.class);
-                myIntent.putExtra("Recipe",recipe);
+                myIntent.putExtra(RECIPE,recipe);
                 startActivity(myIntent);
                 finish();
                 break;
             case "Fragment_myWL":
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_MyWishList.class);
-                myIntent.putExtra("Recipe",recipe);
+                myIntent.putExtra(RECIPE,recipe);
                 startActivity(myIntent);
                 finish();
                 break;
             case"Fragment_All_Category_Recipes":
                 myIntent = new Intent(Activity_Specific_Recipe.this, Activity_All_Category_Recipes.class);
-                myIntent.putExtra("Recipe",recipe);
-                myIntent.putExtra("category",category);
+                myIntent.putExtra(RECIPE,recipe);
+                myIntent.putExtra(CATEGORY,category);
                 startActivity(myIntent);
                 finish();
-//                getSupportFragmentManager().beginTransaction()
-//                        .replace(((ViewGroup)getView().getParent()).getId(), fragment_all_category_recipes, "findThisFragment")
-//                        .commit();
         }
     }
 

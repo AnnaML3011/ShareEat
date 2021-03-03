@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.shareeat.utils.AppManager;
-import com.example.shareeat.fragments.Fragment_MyRecipes;
 import com.example.shareeat.R;
 import com.example.shareeat.objects.Recipe;
 import com.example.shareeat.utils.FB_Manager;
@@ -33,35 +32,41 @@ import java.util.Objects;
 
 
 public class Activity_Edit_Recipe extends AppCompatActivity {
+    private static final String CATEGORY = "category";
+    private static final String RECIPE = "Recipe";
+    private static final String TAG = "tag";
+    private static final String ISINWL = "isInWL";
     private static final int REQUEST_CODE = 1;
+    //Utils
+    private AppManager appManager;
+    private FB_Manager fb_manager;
+    private  FirebaseAuth mAuth;
+    private MimeTypeMap mime;
+    private StorageReference storageReference;
+    private Intent myIntent;
+    private ContentResolver cR;
+    //Views
     private ImageButton back_button;
     private Button done_With_Edit_Recipe_BTN;
-    private Fragment_MyRecipes fragment_myRecipes;
-    private AppManager appManager;
     private TextView recipe_title_LBL;
     private EditText recipe_ingredients_LBL;
     private EditText recipe_directions_LBL;
     private EditText recipe_prep_time;
     private Spinner recipe_category;
     private ImageView recipe_scpecific_Edit_IMG;
-    private Recipe recipe = new Recipe();
-    private boolean isRecipeInwl;
-    private Intent myIntent;
-    private String recipeName;
     private Recipe.RecipeCategory recipeCategory;
+    //Vars
+    private boolean isRecipeInwl;
+    private String recipeName;
     private String recipeIng;
     private String recipeDir;
     private String recipePreTime;
+    private String uri_string;
+    private String fragment_tag;
+    private String category;
     private Uri imageUri;
     private Uri downloadUri;
-    private String uri_string;
-    private StorageReference storageReference;
-    private  FirebaseAuth mAuth;
-    private String fragment_tag;
-    private FB_Manager fb_manager;
-    private ContentResolver cR;
-    private MimeTypeMap mime;
-    private String category;
+    private Recipe recipe = new Recipe();
 
 
     @Override
@@ -71,7 +76,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
         appManager = new AppManager(this);
         appManager.findViewsMyRecipes(this);
         fb_manager = new FB_Manager();
-        fragment_myRecipes = new Fragment_MyRecipes();
         mAuth = FirebaseAuth.getInstance();
         cR = getContentResolver();
         mime = MimeTypeMap.getSingleton();
@@ -91,19 +95,18 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
     }
 
     private void initViews() {
-        fragment_tag = getIntent().getStringExtra("tag");
-        isRecipeInwl = getIntent().getBooleanExtra("isInWL",false);
-        recipe = (Recipe) getIntent().getSerializableExtra("Recipe");
-        category = getIntent().getStringExtra("category");
+        fragment_tag = getIntent().getStringExtra(TAG);
+        isRecipeInwl = getIntent().getBooleanExtra(ISINWL,false);
+        recipe = (Recipe) getIntent().getSerializableExtra(RECIPE);
+        category = getIntent().getStringExtra(CATEGORY);
         set_all_recipe_info(recipe);
-//        Log.d("Dddd",""+recipe.getRecipeName());
         back_button.setOnClickListener(new  View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myIntent = new Intent(Activity_Edit_Recipe.this, Activity_Specific_Recipe.class);
-                myIntent.putExtra("Recipe",recipe);
-                myIntent.putExtra("tag",fragment_tag);
-                myIntent.putExtra("category",category);
+                myIntent.putExtra(RECIPE,recipe);
+                myIntent.putExtra(TAG,fragment_tag);
+                myIntent.putExtra(CATEGORY,category);
                 startActivity(myIntent);
                 finish();
             }
@@ -111,7 +114,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
         done_With_Edit_Recipe_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("done","");
                 uploadRecipe();
             }
         });
@@ -119,7 +121,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chooseImage();
-                uploadImageToDB();
             }
         });
     }
@@ -150,6 +151,7 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
                         if(imageUri!= null){
                             Glide.with(this).load(imageUri).apply(RequestOptions.centerCropTransform()).into(recipe_scpecific_Edit_IMG);
                         }
+                        uploadImageToDB();
                         //data gives you the image uri. Try to convert that to bitmap
                         break;
                     } else if (resultCode == Activity.RESULT_CANCELED) {
@@ -163,7 +165,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
     }
 
     private void uploadImageToDB() {
-
         if (imageUri != null) {
             storageReference = FirebaseStorage.getInstance().getReference("recipesImages").child(System.currentTimeMillis()
                     + "." + mime.getExtensionFromMimeType(cR.getType(imageUri)));
@@ -177,7 +178,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     downloadUri = task.getResult();
                     uploadRecipe();
-//                    fb_manager.uploadRecipeToUserWishList(recipe, mAuth);
                 }
             });
         }else{
@@ -193,7 +193,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
         recipePreTime = recipe_prep_time.getText().toString();
         if(!recipe_category.getSelectedItem().toString().equals("Category")) {
            category = recipe_category.getSelectedItem().toString();
-           Log.d("aaaaaaaaaaaaaaa",""+category);
            recipeCategory = Recipe.RecipeCategory.valueOf(category);
         }else{
             recipeCategory = recipe.getCategory();
@@ -204,24 +203,24 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
         }else {
             uri_string = recipe.getRecipeImage();
         }
-        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string ,isRecipeInwl, recipe.getRecipeTimeAndDate(), mAuth.getCurrentUser().getUid());
+        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string ,isRecipeInwl, recipe.getRecipeTimeAndDate(), recipe.getUserUid());
     }
+
 
     private void uploadRecipe(){
         getAllRecipeInfo();
-        FirebaseFirestore.getInstance().collection("Users")
-                .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userRecipes").document(Objects.requireNonNull(recipeName +"-"+mAuth.getCurrentUser().getUid()))
+        FirebaseFirestore.getInstance().collection("Recipes")
+                .document(Objects.requireNonNull(recipeName +"-"+recipe.getUserUid()))
                 .set(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(Activity_Edit_Recipe.this,"Recipe has been uploaded successfully!",
                             Toast.LENGTH_LONG).show();
-                    //TODO add progress bar
                     myIntent = new Intent(Activity_Edit_Recipe.this, Activity_Specific_Recipe.class);
-                    myIntent.putExtra("Recipe",recipe);
-                    myIntent.putExtra("tag",fragment_tag);
-                    myIntent.putExtra("category",category);
+                    myIntent.putExtra(RECIPE,recipe);
+                    myIntent.putExtra(TAG,fragment_tag);
+                    myIntent.putExtra(CATEGORY,category);
                     startActivity(myIntent);
                     finish();
                 }else{
@@ -231,7 +230,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
                 }
             }
         });
-//        updateRecipesList();
     }
 }
 

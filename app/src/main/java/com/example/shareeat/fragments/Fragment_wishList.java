@@ -5,8 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,7 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 public class Fragment_wishList extends Fragment {
+    private static final String RECIPE = "Recipe";
+    private static final String TAG = "tag";
     private RecyclerView wishList_RECY_LAY;
     private RecyclerView myRecipes_RECY_LAY;
     List<Recipe> recipes = new ArrayList<>();
@@ -40,19 +41,15 @@ public class Fragment_wishList extends Fragment {
     private String which_Activity="";
     FB_Manager fb_manager;
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if(getActivity() instanceof Activity_MyFeed){
             view = inflater.inflate(R.layout.fragment_wish_list , container,false);
             which_Activity = "Activity_MyFeed";
-            Log.d("Activity_MyFeed","yessssss");
         }else if(getActivity() instanceof Activity_MyWishList){
             view = inflater.inflate(R.layout.fragment_my_recipes , container,false);
             which_Activity = "Activity_MyWishList";
-            Log.d("Activity_MyWishList","yessssss");
         }
         mAuth = FirebaseAuth.getInstance();
         fb_manager = new FB_Manager();
@@ -81,9 +78,6 @@ public class Fragment_wishList extends Fragment {
                             Log.d("empty", "onSuccess: LIST EMPTY");
                             return;
                         } else {
-                            // Convert the whole Query Snapshot to a list
-                            // of objects directly! No need to fetch each
-                            // document.
                             for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
                                 Recipe recipe = ds.toObject(Recipe.class);
                                 recipes_WishList.add(recipe);
@@ -93,7 +87,6 @@ public class Fragment_wishList extends Fragment {
                                     setAdapterWishList(wishList_RECY_LAY);
                                 }
                             }
-                            Log.d("recipes:", "onSuccess: " + recipes);
                         }
                     }
                 });
@@ -101,16 +94,14 @@ public class Fragment_wishList extends Fragment {
 
     private void setAdapterWishList(RecyclerView rv){
         Adapter_WishList adapter_recipe = new Adapter_WishList(getContext(), recipes_WishList);
-//                                wishList_RECY_LAY.setLayoutManager(new LinearLayoutManager(view.getContext()));
         rv.setAdapter(adapter_recipe);
         adapter_recipe.setClickListener(new Adapter_WishList.MyItemClickListener() {
 
             @Override
             public void onItemClick(View view, int position) {
-                Log.d("position:", "onCLICK: " + recipes_WishList.get(position).getRecipeName());
                 Intent myIntent = new Intent(getActivity(), Activity_Specific_Recipe.class);
-                myIntent.putExtra("Recipe",recipes_WishList.get(position));
-                myIntent.putExtra("tag","Fragment_wishList");
+                myIntent.putExtra(RECIPE,recipes_WishList.get(position));
+                myIntent.putExtra(TAG,"Fragment_wishList");
                 startActivity(myIntent);
                 getActivity().finish();
             }
@@ -119,7 +110,6 @@ public class Fragment_wishList extends Fragment {
             public void onWishListClicked(View view, Recipe recipe) {
                 recipe.setInWishList(false);
                 fb_manager.removeRecipeFromWishList(recipe, mAuth, getContext());
-//                fb_manager.updateUserRecipesAfterAddWL(recipe.getRecipeName(), recipe, mAuth);
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
             }
@@ -134,10 +124,9 @@ public class Fragment_wishList extends Fragment {
 
             @Override
             public void onItemClick(View view, int position) {
-                Log.d("position:", "onCLICK: " + recipes_WishList.get(position).getRecipeName());
                 Intent myIntent = new Intent(getActivity(), Activity_Specific_Recipe.class);
-                myIntent.putExtra("Recipe",recipes_WishList.get(position));
-                myIntent.putExtra("tag","Fragment_myWL");
+                myIntent.putExtra(RECIPE,recipes_WishList.get(position));
+                myIntent.putExtra(TAG,"Fragment_myWL");
                 startActivity(myIntent);
                 getActivity().finish();
             }
@@ -145,7 +134,6 @@ public class Fragment_wishList extends Fragment {
             public void onWishListClicked(View view, Recipe recipe) {
                 recipe.setInWishList(false);
                 fb_manager.removeRecipeFromWishList(recipe ,mAuth, getContext());
-//                fb_manager.updateUserRecipesAfterAddWL(recipe.getRecipeName(), recipe, mAuth);
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
 

@@ -1,6 +1,4 @@
 package com.example.shareeat.utils;
-
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -8,12 +6,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shareeat.R;
-import com.google.android.material.navigation.NavigationView;
 
 public class AppManager {
     //Login Screen
@@ -69,11 +64,9 @@ public class AppManager {
     RecyclerView myRecipes_RECY_LAY;
 
     public AppManager(AppCompatActivity activity){
-
     }
 
     public AppManager() {
-
     }
 
 
@@ -81,7 +74,6 @@ public class AppManager {
         login_email_LBL = activity.findViewById(R.id.login_email_LBL);
         login_password_LBL = activity.findViewById(R.id.login_password_LBL);
         login_BTN = activity.findViewById(R.id.login_BTN);
-        google_BTN_signup = activity.findViewById(R.id.google_BTN_signup);
         signup_manualy_BTN =activity.findViewById(R.id.signup_manualy_BTN);
 
     }

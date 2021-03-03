@@ -6,18 +6,16 @@ public class User {
     private String email, UserName;
     private ArrayList<Recipe> userRecipes = new ArrayList<>();
     private ArrayList<Recipe> wishList = new ArrayList<>();
-    private int userRating = 0;
     String userImage;
 
     public User(){
     }
 
-    public User(String email, String userName, ArrayList<Recipe> userRecipes, ArrayList<Recipe> wishList, int userRating, String userImage) {
+    public User(String email, String userName, ArrayList<Recipe> userRecipes, ArrayList<Recipe> wishList, String userImage) {
         this.email = email;
         this.UserName = userName;
         this.userRecipes = userRecipes;
         this.wishList = wishList;
-        this.userRating =  userRating;
         this.userImage = userImage;
     }
 
@@ -51,14 +49,6 @@ public class User {
 
     public void setWishList(ArrayList<Recipe> wishList) {
         this.wishList = wishList;
-    }
-
-    public int getUserRating() {
-        return userRating;
-    }
-
-    public void setUserRating(int userRating) {
-        this.userRating = userRating;
     }
 
     public void addRecipe(ArrayList<Recipe> recipes){

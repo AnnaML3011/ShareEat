@@ -7,14 +7,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.shareeat.R;
-import java.util.concurrent.Executor;
 
 public class Activity_Splash extends AppCompatActivity {
 
@@ -24,11 +20,9 @@ public class Activity_Splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Remove status bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-
         findViews();
         startAnimation(splash_IMG_logo);
     }
@@ -43,10 +37,6 @@ public class Activity_Splash extends AppCompatActivity {
         final ScaleAnimation anim = new ScaleAnimation(0.4f, 1f, 0.4f, 1f, Animation.RELATIVE_TO_SELF, 0.1f, Animation.RELATIVE_TO_SELF, 0.1f);
         anim.setDuration(ANIMATION_DURATION);
         view.setAnimation(anim);
-//        RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//        rotate.setDuration(4500);
-//        rotate.setInterpolator(new LinearInterpolator());
-//        view.startAnimation(rotate);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;

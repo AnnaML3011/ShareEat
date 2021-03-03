@@ -11,30 +11,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.shareeat.utils.AppManager;
 import com.example.shareeat.R;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 
 
 public class Activity_Main extends AppCompatActivity implements View.OnClickListener {
     private static final String A_TAG = "A_tag";
     private AppManager appManager;
+    private FirebaseAuth mAuth;
     private Button login_BTN;
     private Button signup_manualy_BTN;
-    private Button google_BTN_signup;
     private EditText login_email_LBL;
     private EditText login_password_LBL;
     private String entered_email;
     private String entered_pass;
-    private FirebaseAuth mAuth;
-    private GoogleApi googleApiClient;
-
 
 
     @Override
@@ -57,55 +50,23 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
             case R.id.signup_manualy_BTN:
                 startActivity(new Intent(Activity_Main.this,Activity_SignUp.class));
                 break;
-            case R.id.google_BTN_signup:
-                googleSignIn();
-                firebaseAuthWithGoogle(mAuth.getCurrentUser().getIdToken(true).toString());
-                break;
         }
     }
-    //TODO -implement google signin
-    private void googleSignIn(){
-        GoogleSignInOptions gso = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-    }
 
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, mAuth.getAccessToken(true).toString());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("pttt", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("ptt", "signInWithCredential:failure", task.getException());
-//                            updateUI(null);
-                        }
-                    }
-                });
-    }
+
     private void initViews(){
         login_BTN = appManager.getLogin_BTN();
         signup_manualy_BTN = appManager.getSignup_manualy_BTN();
-        google_BTN_signup = appManager.getGoogle_BTN_signup();
         login_email_LBL = appManager.getLogin_email_LBL();
         login_password_LBL= appManager.getLogin_password_LBL();
         login_BTN.setOnClickListener(this);
         signup_manualy_BTN.setOnClickListener(this);
-        google_BTN_signup.setOnClickListener(this);
     }
+
 
     private void loginUser() {
         entered_email = login_email_LBL.getText().toString();
         entered_pass = login_password_LBL.getText().toString();
-        Log.d("email+pass","" + entered_email +"/"+ entered_pass);
         if (entered_email.isEmpty() || entered_pass.isEmpty()) {
             makeToast("Email or password is empty, please fill in the empty fields!");
             return;

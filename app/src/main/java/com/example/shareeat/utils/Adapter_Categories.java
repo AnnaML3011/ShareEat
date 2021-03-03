@@ -33,10 +33,8 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
 
     @Override
     public void onBindViewHolder(@NonNull Adapter_Categories.MyViewHolder holder, int position) {
-        Log.d("pttt", "Position = " + position);
         Category c = categories.get(position);
         holder.category_title_LBL.setText("" + c.getCategory_Name());
-
         Glide
                 .with(mInflater.getContext())
                 .load(c.getCategory_image())
@@ -57,7 +55,6 @@ public class Adapter_Categories extends RecyclerView.Adapter<Adapter_Categories.
     public void setClickListener(MyItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
-
 
     // parent activity will implement this method to respond to click events
     public interface MyItemClickListener {

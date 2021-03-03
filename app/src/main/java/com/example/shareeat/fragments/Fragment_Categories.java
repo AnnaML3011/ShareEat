@@ -21,6 +21,8 @@ import java.util.List;
 
 
 public class Fragment_Categories extends Fragment {
+    private static final String CATEGORY = "category";
+    private static final String TAG = "tag";
     private RecyclerView categories_LST_names;
     private FirebaseAuth mAuth;
     private List<Category> categories = new ArrayList<>();
@@ -54,17 +56,11 @@ public class Fragment_Categories extends Fragment {
         adapter_categories.setClickListener(new Adapter_Categories.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.d("categgories", " "+ categories.get(position).getCategory_Name());
                 Intent myIntent = new Intent(getActivity(), Activity_All_Category_Recipes.class);
-                myIntent.putExtra("category", categories.get(position).getCategory_Name());
-                myIntent.putExtra("tag","Fragment_Categories");
+                myIntent.putExtra(CATEGORY, categories.get(position).getCategory_Name());
+                myIntent.putExtra(TAG,"Fragment_Categories");
                 startActivity(myIntent);
                 getActivity().finish();
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                .replace(((ViewGroup)getView().getParent()).getId(), fragment_all_category_recipes, "findThisFragment")
-//                .commit();
-//                fragment_all_category_recipes.refresh(categories.get(position).getCategory_Name());
-//                getUsers(categories.get(position).getCategory_Name());
             }
         });
 

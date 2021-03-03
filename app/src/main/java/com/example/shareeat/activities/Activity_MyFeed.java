@@ -40,31 +40,33 @@ import java.util.Objects;
 public class Activity_MyFeed extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String F_WHICH_ACTIVITY = "F_WHICH_ACTIVITY";
     private static final String ACTIVITY_MYFEED = "Activity_MyFeed";
+    private static final String EMAIL = "email";
+    private static final String UNAME = "userName";
     private static final String A_TAG = "A_tag";
     private static final int REQUEST_CODE = 1;
+    private Fragment_wishList fragment_wishList;
+    private Fragment_Recent_Recipes recent_recipes;
     private AppManager appManager;
+    private StorageReference storageReference;
+    private FirebaseAuth mAuth;
+    private Intent myIntent;
     private Button upload_recipe_BTN;
     private ImageButton logout_button;
     private ImageView user_img_IMG;
-    private Intent myIntent;
-    private Uri imageUri;
-    private Uri downloadUri;
-    private String uri_string;
-    private String userName;
-    private String userEmail;
-    private StorageReference storageReference;
-    private FirebaseAuth mAuth;
-    private DrawerLayout drawer;
-    private Toolbar toolbar;
-    private ActionBarDrawerToggle toggle;
-    private NavigationView nav_view;
     private ImageView user_img_IMG_drawer;
     private TextView user_name_LBL_drawer;
     private TextView user_mail_LBL_drawer;
     private TextView user_name_LBL;
-    private Fragment_wishList fragment_wishList;
-    private Fragment_Recent_Recipes recent_recipes;
+    private String uri_string;
+    private String userName;
+    private String userEmail;
     private String tag;
+    private Uri imageUri;
+    private Uri downloadUri;
+    private DrawerLayout drawer;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView nav_view;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +83,8 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
         tag = getIntent().getStringExtra(A_TAG);
         if(tag!= null) {
             if (tag.equals("Activity_SignUp")) {
-                userEmail = getIntent().getStringExtra("email");
-                userName = getIntent().getStringExtra("userName");
+                userEmail = getIntent().getStringExtra(EMAIL);
+                userName = getIntent().getStringExtra(UNAME);
                 setUserNameAndEmail(userName, userEmail);
             }
         }
@@ -120,9 +122,8 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
         switch(v.getId()){
             case R.id.upload_recipe_BTN:
                 myIntent = new Intent(Activity_MyFeed.this, Activity_UploadReciepe.class);
-                Log.d("AAAAAAAAAAA",""+Activity_MyFeed.this.toString());
                 myIntent.putExtra(F_WHICH_ACTIVITY, ACTIVITY_MYFEED);
-                myIntent.putExtra("userName",userName);
+                myIntent.putExtra(UNAME,userName);
                 startActivity(myIntent);
                 finish();
                 break;
@@ -189,9 +190,6 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
                         DocumentSnapshot document = task.getResult();
                         if (document.getData().get("userImage") != null) {
                             uri_string = document.getData().get("userImage").toString();
-
-                            Log.d("userDetails" , ""+userName +";;;;;" + userEmail);
-
                             if(uri_string!= null) {
                                 imageUri = Uri.parse(uri_string);
                                 changeUserProfileImage();
@@ -218,7 +216,6 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
     }
 
     private void changeUserProfileImage() {
-        Log.d("success", "\nDocumentSnapshot data: " + "----" + imageUri + user_img_IMG +user_img_IMG_drawer);
         Glide.with(this).load(imageUri).apply(RequestOptions.circleCropTransform()).into(user_img_IMG);
         Glide.with(this).load(imageUri).apply(RequestOptions.circleCropTransform()).into(user_img_IMG_drawer);
     }
@@ -229,7 +226,6 @@ public class Activity_MyFeed extends AppCompatActivity implements View.OnClickLi
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"),REQUEST_CODE);
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
