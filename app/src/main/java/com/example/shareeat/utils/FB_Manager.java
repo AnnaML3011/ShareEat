@@ -28,7 +28,7 @@ public class FB_Manager {
 
     public void uploadRecipeToUserWishList(Recipe recipe, FirebaseAuth mAuth){
         FirebaseFirestore.getInstance().collection("Users")
-                .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userWishList").document(Objects.requireNonNull(recipe.getRecipeName() +"-"+mAuth.getCurrentUser().getUid()))
+                .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userWishList").document(Objects.requireNonNull(recipe.getRecipeName() +"-"+recipe.getUserUid()))
                 .set(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -42,9 +42,9 @@ public class FB_Manager {
     }
 
 
-    public void addSpecificRecipe(String recipeName, String recipeIng, String recipeDir, String recipePreTime, String category, String imageUri, boolean isInWishList, FirebaseAuth mAuth){
+    public void addSpecificRecipe(String recipeName, String recipeIng, String recipeDir, String recipePreTime, String category, String imageUri, boolean isInWishList, FirebaseAuth mAuth, String userId, Date date ){
         recipeCategory = Recipe.RecipeCategory.valueOf(category);
-        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, imageUri, isInWishList, new Date(System.currentTimeMillis()), mAuth.getCurrentUser().getUid());
+        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, imageUri, isInWishList, date, userId);
 //        recipes_WishList.add(recipe);
         recipes_WishList.add(recipe);
         uploadRecipeToUserWishList(recipe, mAuth);
@@ -52,14 +52,14 @@ public class FB_Manager {
 
     public void removeRecipeFromWishList(Recipe recipe, FirebaseAuth mAuth , Context context){
         FirebaseFirestore.getInstance().collection("Users")
-                .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userWishList").document(Objects.requireNonNull(recipe.getRecipeName() +"-"+mAuth.getCurrentUser().getUid()))
+                .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userWishList").document(Objects.requireNonNull(recipe.getRecipeName() +"-"+recipe.getUserUid()))
                 .delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(context,"Recipe has deleted successfully from Wishlist!",
                             Toast.LENGTH_LONG).show();
-//                    updateUserRecipesAfterRemoveFromWL(recipe.getRecipeName(), recipe, mAuth);
+                    updateUserRecipesAfterRemoveFromWL(recipe.getRecipeName(), recipe, mAuth);
                     //TODO add progress bar
                 }else{
                     Toast.makeText(context,"Failed to delete recipe from Wishlist! Try again!",
@@ -72,8 +72,7 @@ public class FB_Manager {
 
 
     public void updateUserRecipesAfterRemoveFromWL(String recipeName ,Recipe recipe,FirebaseAuth mAuth){
-        FirebaseFirestore.getInstance().collection("Users")
-                .document(Objects.requireNonNull(recipe.getUserUid())).collection("userRecipes").document(Objects.requireNonNull(recipeName +"-"+recipe.getUserUid()))
+        FirebaseFirestore.getInstance().collection("Recipes").document(Objects.requireNonNull(recipeName +"-"+recipe.getUserUid()))
                 .set(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -110,7 +109,7 @@ public class FB_Manager {
             recipe.setInWishList(isInWL);
             Glide.with(view).load(R.drawable.ic_heart_filled_pink).apply(RequestOptions.circleCropTransform()).into(save_to_WL_BTN_myRecipes);
             addSpecificRecipe(recipe.getRecipeName(), recipe.getRecipeIngredients(),recipe.getRecipeDirections(), recipe.getPreparationTime()
-                    ,recipe.getCategory().toString(), recipe.getRecipeImage(), isInWL, mAuth);
+                    ,recipe.getCategory().toString(), recipe.getRecipeImage(), isInWL, mAuth, recipe.getUserUid(), recipe.getRecipeTimeAndDate());
         }else{
             isInWL = false;
             recipe.setInWishList(isInWL);
@@ -122,8 +121,7 @@ public class FB_Manager {
     }
 
     public void updateUserRecipesAfterAddWL(String recipeName ,Recipe recipe,FirebaseAuth mAuth){
-        FirebaseFirestore.getInstance().collection("Users")
-                .document(Objects.requireNonNull(recipe.getUserUid())).collection("userRecipes").document(Objects.requireNonNull(recipeName +"-"+recipe.getUserUid()))
+        FirebaseFirestore.getInstance().collection("Recipes").document(Objects.requireNonNull(recipeName +"-"+recipe.getUserUid()))
                 .set(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

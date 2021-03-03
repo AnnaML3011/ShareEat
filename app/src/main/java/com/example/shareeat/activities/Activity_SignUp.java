@@ -125,7 +125,7 @@ public class Activity_SignUp extends AppCompatActivity {
                 if(task.isSuccessful()){
                     userRecipes = new ArrayList<>();
                     wishList = new ArrayList<>();
-                    User user = new User(email, uName, userRecipes, wishList,0, null);
+                    User user = new User(email, uName, userRecipes, wishList,null);
                     Log.d("aaa",""+email + "//" + password);
                     FirebaseFirestore.getInstance().collection("Users")
                             .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid()))

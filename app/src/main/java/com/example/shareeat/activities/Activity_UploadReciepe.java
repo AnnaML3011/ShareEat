@@ -60,7 +60,7 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
     private EditText recipe_ingredients_UPLD_LBL;
     private EditText recipe_directions_UPLD_LBL;
     private EditText preparation_Time_LBL;
-
+    private Map<String,String> recipeNameRef;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +158,8 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
             }).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     downloadUri = task.getResult();
+                    uploadRecipeToMainRecipes();
+//                    uploadRecipeNameToUser();
                     uploadRecipe();
                 }
             });
@@ -166,6 +168,58 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
                     Toast.LENGTH_LONG).show();
         }
     }
+
+
+    private void uploadRecipeToMainRecipes(){
+        addSpecificRecipe();
+        FirebaseFirestore.getInstance().collection("Recipes").document(Objects.requireNonNull(recipeName +"-"+mAuth.getCurrentUser().getUid()))
+                .set(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(Activity_UploadReciepe.this,"Recipe has been uploaded successfully!",
+                            Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(Activity_UploadReciepe.this,"Failed to upload recipe! Try again!",
+                            Toast.LENGTH_LONG).show();
+                    Log.d("failed","Failed to upload recipe! Try again");
+                }
+            }
+        });
+    }
+//
+//    private void uploadRecipeNameToUser(){
+////        addSpecificRecipe();
+//        FirebaseFirestore.getInstance().collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser().getUid()))
+//                .collection("userRecipes").document(Objects.requireNonNull(recipeName +"-"+mAuth.getCurrentUser().getUid()))
+//                .set(recipeNameRef).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if(task.isSuccessful()){
+//                    Toast.makeText(Activity_UploadReciepe.this,"Recipe has been uploaded successfully!",
+//                            Toast.LENGTH_LONG).show();
+//                    updateRecipesList();
+//                    //TODO add progress bar
+//                    which_Activity = getIntent().getStringExtra(F_WHICH_ACTIVITY);
+//                    if(which_Activity.equals("Activity_MyRecipes")) {
+//                        Intent myIntent = new Intent(Activity_UploadReciepe.this, Activity_MyRecipes.class);
+//                        startActivity(myIntent);
+//                        finish();
+//                    }
+//                    else if(which_Activity.equals("Activity_MyFeed")){
+//                        Intent myIntent = new Intent(Activity_UploadReciepe.this, Activity_MyFeed.class);
+//                        startActivity(myIntent);
+//                        finish();
+//                    }
+//                }else{
+//                    Toast.makeText(Activity_UploadReciepe.this,"Failed to upload recipe! Try again!",
+//                            Toast.LENGTH_LONG).show();
+//                    Log.d("failed","Failed to upload recipe! Try again");
+//                }
+//            }
+//        });
+//    }
+
 
     private void uploadRecipe(){
         addSpecificRecipe();
@@ -216,16 +270,26 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
         String recipeDir = recipe_directions_UPLD_LBL.getText().toString();
         String recipePreTime = preparation_Time_LBL.getText().toString();
         String category = recipe_category_LBL.getSelectedItem().toString();
+        if(category.equals("Select Category")){
+            Toast.makeText(Activity_UploadReciepe.this,"Please Select an category!",
+                    Toast.LENGTH_LONG).show();
+        }
         Recipe.RecipeCategory recipeCategory = Recipe.RecipeCategory.valueOf(category);
         imageUri = downloadUri;
         String uri_string = imageUri.toString();
         recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string, false, new Date(System.currentTimeMillis()), mAuth.getCurrentUser().getUid());
         recipes.add(recipe);
         user.addRecipe(recipes);
+        //The change is here
+//        recipeNameRef = new HashMap<>();
+//        recipeNameRef.put(recipeName+"-"+mAuth.getCurrentUser().getUid(),recipeName+"-"+mAuth.getCurrentUser().getUid());
+        /////////////
         updateUserRecipes();
-        userRecipes.put(recipeName+"-"+mAuth.getCurrentUser().getUid(), recipe);
+//        userRecipes.put(recipeName+"-"+mAuth.getCurrentUser().getUid(), recipe);
     }
 
+
+    //TODO function that we dont need - value is null beacuse recipe1 is not an object now
     private void updateUserRecipes(){
         FirebaseFirestore.getInstance().collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userRecipes").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -237,7 +301,7 @@ public class Activity_UploadReciepe extends AppCompatActivity implements View.On
                         } else {
                             for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
                                 Recipe recipe1 = ds.toObject(Recipe.class);
-                                userRecipes.put(recipeName+"-"+mAuth.getCurrentUser().getUid(), recipe1);                            }
+                                userRecipes.put(recipe1.getRecipeName()+"-"+mAuth.getCurrentUser().getUid(), recipe1);                            }
                         }
                     }
                 });

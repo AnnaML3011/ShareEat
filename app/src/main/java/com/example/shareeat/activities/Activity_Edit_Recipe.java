@@ -119,7 +119,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chooseImage();
-                uploadImageToDB();
             }
         });
     }
@@ -150,6 +149,7 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
                         if(imageUri!= null){
                             Glide.with(this).load(imageUri).apply(RequestOptions.centerCropTransform()).into(recipe_scpecific_Edit_IMG);
                         }
+                        uploadImageToDB();
                         //data gives you the image uri. Try to convert that to bitmap
                         break;
                     } else if (resultCode == Activity.RESULT_CANCELED) {
@@ -177,7 +177,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     downloadUri = task.getResult();
                     uploadRecipe();
-//                    fb_manager.uploadRecipeToUserWishList(recipe, mAuth);
                 }
             });
         }else{
@@ -204,13 +203,14 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
         }else {
             uri_string = recipe.getRecipeImage();
         }
-        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string ,isRecipeInwl, recipe.getRecipeTimeAndDate(), mAuth.getCurrentUser().getUid());
+        recipe = new Recipe(recipeName, recipeIng, recipeDir, recipePreTime, recipeCategory, uri_string ,isRecipeInwl, recipe.getRecipeTimeAndDate(), recipe.getUserUid());
     }
+
 
     private void uploadRecipe(){
         getAllRecipeInfo();
-        FirebaseFirestore.getInstance().collection("Users")
-                .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userRecipes").document(Objects.requireNonNull(recipeName +"-"+mAuth.getCurrentUser().getUid()))
+        FirebaseFirestore.getInstance().collection("Recipes")
+                .document(Objects.requireNonNull(recipeName +"-"+recipe.getUserUid()))
                 .set(recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -231,7 +231,6 @@ public class Activity_Edit_Recipe extends AppCompatActivity {
                 }
             }
         });
-//        updateRecipesList();
     }
 }
 

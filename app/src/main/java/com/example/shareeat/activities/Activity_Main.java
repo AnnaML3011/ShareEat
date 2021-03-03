@@ -57,10 +57,10 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
             case R.id.signup_manualy_BTN:
                 startActivity(new Intent(Activity_Main.this,Activity_SignUp.class));
                 break;
-            case R.id.google_BTN_signup:
-                googleSignIn();
-                firebaseAuthWithGoogle(mAuth.getCurrentUser().getIdToken(true).toString());
-                break;
+//            case R.id.google_BTN_signup:
+//                googleSignIn();
+//                firebaseAuthWithGoogle(mAuth.getCurrentUser().getIdToken(true).toString());
+//                break;
         }
     }
     //TODO -implement google signin
@@ -99,7 +99,6 @@ public class Activity_Main extends AppCompatActivity implements View.OnClickList
         login_password_LBL= appManager.getLogin_password_LBL();
         login_BTN.setOnClickListener(this);
         signup_manualy_BTN.setOnClickListener(this);
-        google_BTN_signup.setOnClickListener(this);
     }
 
     private void loginUser() {

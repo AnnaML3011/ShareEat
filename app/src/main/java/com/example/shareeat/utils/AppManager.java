@@ -81,7 +81,6 @@ public class AppManager {
         login_email_LBL = activity.findViewById(R.id.login_email_LBL);
         login_password_LBL = activity.findViewById(R.id.login_password_LBL);
         login_BTN = activity.findViewById(R.id.login_BTN);
-        google_BTN_signup = activity.findViewById(R.id.google_BTN_signup);
         signup_manualy_BTN =activity.findViewById(R.id.signup_manualy_BTN);
 
     }

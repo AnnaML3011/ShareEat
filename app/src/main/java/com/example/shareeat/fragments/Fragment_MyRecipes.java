@@ -60,9 +60,8 @@ public class Fragment_MyRecipes extends Fragment {
 
 
     }
-
     private void  getRecipesFromDB() {
-        FirebaseFirestore.getInstance().collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userRecipes").get()
+        FirebaseFirestore.getInstance().collection("Recipes").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -74,9 +73,12 @@ public class Fragment_MyRecipes extends Fragment {
                             // of objects directly! No need to fetch each
                             // document.
                             for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
+                                Log.d("ds iddddddd:",ds.getId());
                                 recipe = ds.toObject(Recipe.class);
-                                recipes.add(recipe);
-//                                Log.d("recipe:" , ""+recipe.getRecipeName() );
+                                if(recipe.getUserUid().equals(mAuth.getCurrentUser().getUid())) {
+                                    getRecipesFromMyWishList(recipe);
+                                    recipes.add(recipe);
+                                }
                                 adapter_recipe = new Adapter_Recipes(getContext(), recipes);
                                 myRecipes_RECY_LAY.setLayoutManager(new LinearLayoutManager(view.getContext()));
                                 myRecipes_RECY_LAY.setAdapter(adapter_recipe);
@@ -103,41 +105,16 @@ public class Fragment_MyRecipes extends Fragment {
                                     public void onAddToWishListClicked(View view, Recipe recipe, int position) {
 //                                        adapter_recipe.updateOneItem(position);
                                         fb_manager.setOnAddToWishList(view, recipe, mAuth,getContext());
-//                                        save_to_WL_BTN_myRecipes = view.findViewById(R.id.save_to_WL_BTN_myRecipes);
-//                                        if(recipe.isInWishList() ==false){
-//                                            isInWL = true;
-//                                            recipe.setInWishList(isInWL);
-//                                            Glide.with(view).load(R.drawable.ic_heart_filled_pink).apply(RequestOptions.circleCropTransform()).into(save_to_WL_BTN_myRecipes);
-//                                            fb_manager.addSpecificRecipe(recipe.getRecipeName(), recipe.getRecipeIngredients(),recipe.getRecipeDirections(), recipe.getPreparationTime()
-//                                                    ,recipe.getCategory().toString(), recipe.getRecipeImage(), isInWL, mAuth);
-//                                            uploadRecipe(recipe.getRecipeName(), recipe, mAuth);
-//                                        }else{
-//                                            isInWL = false;
-//                                            recipe.setInWishList(isInWL);
-//                                            Glide.with(view).load(R.drawable.ic_heart_empty).apply(RequestOptions.circleCropTransform()).into(save_to_WL_BTN_myRecipes);
-//                                            fb_manager.removeRecipeFromWishList(recipe.getRecipeName(),mAuth,getContext());
-//                                            uploadRecipe(recipe.getRecipeName(), recipe, mAuth);
-//
-//                                        }
 
 //                                        all_recipes_WishList.addAll(recipes_WishList);
 //                                        fb_manager.uploadRecipe(recipe.getRecipeName(),recipe, mAuth);
 
-//                                        addSpecificRecipe(recipe.getRecipeName(),recipe.getRecipeDescription(),recipe.getPreparationTime(),recipe.getCategory().toString(), recipe.getRecipeImage(), isInWL);
-//                                        uploadRecipe(recipe.getRecipeName(),recipe);
 
 //                                        for(Recipe recipe1 : all_recipes_WishList){
 //                                            if(recipe.isInWishList() == true) {
 //                                            }
 ////                                        }
 
-//                                        if(isInWL == true){
-//                                            save_to_WL_BTN_myRecipes = view.findViewById(R.id.save_to_WL_BTN_myRecipes);
-//                                            save_to_WL_BTN_myRecipes.setImageResource(R.drawable.ic_heart_filled_pink);
-//                                        }
-                                        //TODO - fill the heart on click
-//                                        save_to_WL_BTN_myRecipes = view.findViewById(R.id.save_to_WL_BTN_myRecipes);
-//                                        save_to_WL_BTN_myRecipes.setImageResource(R.drawable.ic_heart_filled_black);
                                     }
                                 });
                             }
@@ -145,7 +122,97 @@ public class Fragment_MyRecipes extends Fragment {
                         }
                     }
                 });
-
-
     }
+
+
+    private void getRecipesFromMyWishList(Recipe r){
+        FirebaseFirestore.getInstance().collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userWishList").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        if (documentSnapshots.isEmpty()) {
+                            Log.d("empty", "onSuccess: LIST EMPTY");
+                            return;
+                        } else {
+                            // Convert the whole Query Snapshot to a list
+                            // of objects directly! No need to fetch each
+                            // document.
+                            for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
+                                recipe = ds.toObject(Recipe.class);
+                                if(ds.getId().equals(r.getRecipeName()+"-"+r.getUserUid())){
+                                    r.setInWishList(true);
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+
+
+
+
+
+//    private void  getRecipesFromDB() {
+//        FirebaseFirestore.getInstance().collection("Users").document(Objects.requireNonNull(mAuth.getCurrentUser().getUid())).collection("userRecipes").get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot documentSnapshots) {
+//                        if (documentSnapshots.isEmpty()) {
+//                            Log.d("empty", "onSuccess: LIST EMPTY");
+//                            return;
+//                        } else {
+//                            // Convert the whole Query Snapshot to a list
+//                            // of objects directly! No need to fetch each
+//                            // document.
+//                            for(DocumentSnapshot ds : documentSnapshots.getDocuments())   {
+//                                recipe = ds.toObject(Recipe.class);
+//                                recipes.add(recipe);
+////                                Log.d("recipe:" , ""+recipe.getRecipeName() );
+//                                adapter_recipe = new Adapter_Recipes(getContext(), recipes);
+//                                myRecipes_RECY_LAY.setLayoutManager(new LinearLayoutManager(view.getContext()));
+//                                myRecipes_RECY_LAY.setAdapter(adapter_recipe);
+//                                adapter_recipe.setClickListener(new Adapter_Recipes.MyItemClickListener() {
+//                                    @Override
+//                                    public void onItemClick(View view, int position) {
+//                                        adapter_recipe.updateOneItem(position);
+//                                        Log.d("position:", "onCLICK: " + recipes.get(position).getRecipeName());
+//                                        Intent myIntent = new Intent(getActivity(), Activity_Specific_Recipe.class);
+//                                        myIntent.putExtra("Recipe",recipes.get(position));
+//                                        myIntent.putExtra("tag","Fragment_MyRecipes");
+//                                        startActivity(myIntent);
+//                                        getActivity().finish();
+////                                        Bundle bundle = new Bundle();
+////                                        bundle.putSerializable("Recipe", recipes.get(position));
+////                                        bundle.putString("tag","Fragment_MyRecipes");
+////                                        fragment_recipe.setArguments(bundle);
+////                                        getActivity().getSupportFragmentManager().beginTransaction()
+////                                                .replace(((ViewGroup)getView().getParent()).getId(), fragment_recipe, "findThisFragment")
+////                                                .commit();
+////                                        specific_recipe.setRecipeInfo(recipes.get(position));
+//                                    }
+//                                    @Override
+//                                    public void onAddToWishListClicked(View view, Recipe recipe, int position) {
+////                                        adapter_recipe.updateOneItem(position);
+//                                        fb_manager.setOnAddToWishList(view, recipe, mAuth,getContext());
+//
+////                                        all_recipes_WishList.addAll(recipes_WishList);
+////                                        fb_manager.uploadRecipe(recipe.getRecipeName(),recipe, mAuth);
+//
+//
+////                                        for(Recipe recipe1 : all_recipes_WishList){
+////                                            if(recipe.isInWishList() == true) {
+////                                            }
+//////                                        }
+//
+//                                    }
+//                                });
+//                            }
+//                            Log.d("recipes:", "onSuccess: " + recipes);
+//                        }
+//                    }
+//                });
+//
+//
+//    }
 }
