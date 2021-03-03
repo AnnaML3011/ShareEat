@@ -62,8 +62,8 @@ You can add and remove recipes to/from your Wish List by clicking on 'heart' sig
 - add missing ingredients to shopping cart
 
 <p align="center">
-<img src="https://img.shields.io/badge/made%20by-AnnaML3011-pink">
+<img src="https://img.shields.io/badge/Made%20By-AnnaML3011-pink">
 <img src="https://img.shields.io/badge/Java-100%25-pink">
-<img src="https://img.shields.io/badge/android%20studio-4.2-pink">
+<img src="https://img.shields.io/badge/Android%20Studio-4.2-pink">
 </p>
 
