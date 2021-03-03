@@ -79,44 +79,6 @@ public class Activity_SignUp extends AppCompatActivity {
         email = signUp_email_LBL.getText().toString();
         password = signUp_password_LBL.getText().toString();
         password_ver = verify_password_LBL.getText().toString();
-        checkUserDetails();
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(Activity_SignUp.this,new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    userRecipes = new ArrayList<>();
-                    wishList = new ArrayList<>();
-                    User user = new User(email, uName, userRecipes, wishList,null);
-                    FirebaseFirestore.getInstance().collection("Users")
-                            .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid()))
-                            .set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(Activity_SignUp.this,"User has been registered successfully!",
-                                        Toast.LENGTH_LONG).show();
-                                Intent myIntent = new Intent(Activity_SignUp.this, Activity_MyFeed.class);
-                                myIntent.putExtra(A_TAG,"Activity_SignUp");
-                                myIntent.putExtra(EMAIL,email);
-                                myIntent.putExtra(UNAME,uName);
-                                startActivity(myIntent);
-                                finish();
-                            }else{
-                                Toast.makeText(Activity_SignUp.this,"Failed to register! Try again!",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                }else{
-                    Toast.makeText(Activity_SignUp.this,"Failed to register the user!",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    private void checkUserDetails(){
         if(uName.isEmpty()){
             signUp_uName_LBL.setError("UserName is Required");
             signUp_uName_LBL.requestFocus();
@@ -156,6 +118,40 @@ public class Activity_SignUp extends AppCompatActivity {
             verify_password_LBL.requestFocus();
             return;
         }
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(Activity_SignUp.this,new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    userRecipes = new ArrayList<>();
+                    wishList = new ArrayList<>();
+                    User user = new User(email, uName, userRecipes, wishList,null);
+                    FirebaseFirestore.getInstance().collection("Users")
+                            .document(Objects.requireNonNull(mAuth.getCurrentUser().getUid()))
+                            .set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(Activity_SignUp.this,"User has been registered successfully!",
+                                        Toast.LENGTH_LONG).show();
+                                Intent myIntent = new Intent(Activity_SignUp.this, Activity_MyFeed.class);
+                                myIntent.putExtra(A_TAG,"Activity_SignUp");
+                                myIntent.putExtra(EMAIL,email);
+                                myIntent.putExtra(UNAME,uName);
+                                startActivity(myIntent);
+                                finish();
+                            }else{
+                                Toast.makeText(Activity_SignUp.this,"Failed to register! Try again!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }else{
+                    Toast.makeText(Activity_SignUp.this,"Failed to register the user!",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 }

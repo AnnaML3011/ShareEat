@@ -37,13 +37,11 @@ private View view;
 
     @Override
     public void onBindViewHolder(@NonNull Adapter_Recipes.MyViewHolder holder, int position) {
-        Log.d("pttt", "Position = " + position);
         Recipe r = recipes.get(position);
         holder.name_RECIPE_LBL.setText("" + r.getRecipeName());
         holder.category_RECIPE_LBL.setText("" + r.getCategory());
         holder.prep_TIME_LBL.setText(r.getPreparationTime());
         holder.description__RECIPE_LBL.setText(r.getRecipeIngredients());
-        Log.d("iswishlist", "" + r.isInWishList());
         if(r.isInWishList() == true){
             Glide.with(view).load(R.drawable.ic_heart_filled_pink).apply(RequestOptions.circleCropTransform()).into(holder.save_to_WL_BTN_myRecipes);
         }else{
