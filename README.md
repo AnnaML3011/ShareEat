@@ -48,6 +48,7 @@ You can also edit your recipes by clicking the pen at the right side of the reci
 Also you have At the menu button option to see your recipes which you uploaded, recipes that you like, \
 and see all the recipes of all the users arranged in categories. 
 
+![ezgif com-gif-maker (10)](https://user-images.githubusercontent.com/68688761/109734533-d5c48080-7bc9-11eb-9fb7-d5b448e8fb00.gif)
 
 You can add and remove recipes to/from your Wish List by clicking on 'heart' sign. 
 
